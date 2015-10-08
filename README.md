@@ -1,11 +1,14 @@
 # Atelier_Librairie
 
-PERNET Thibaut
-DOUTRIAUX Quentin
-Groupe 3 
+# PERNET Thibaut 
 
-Projet Android : Création d'une librairie de livres.
+# DOUTRIAUX Quentin 
+
+# Groupe 3 
 
 
+# Projet Android : Création d'une librairie de livres.
+
+-------------------------------------------------------------
 
 Rendu 1 : 
