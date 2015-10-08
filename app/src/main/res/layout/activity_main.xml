@@ -1,0 +1,55 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity" >
+
+    <TextView android:id="@+id/main_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/app_name"
+        android:textSize="32dp" />
+
+    <Button android:id="@+id/button_book_creation"
+        android:layout_below="@id/main_title"
+        android:text="@string/button_book_creation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:width="200dp"
+        android:onClick="btnCreateBook" />
+
+    <Button android:id="@+id/button_book_filter_creation"
+        android:layout_below="@id/button_book_creation"
+        android:text="@string/button_book_filter_creation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:width="200dp"
+        android:onClick="btnCreateBookFilter" />
+
+    <Button android:id="@+id/show_collection"
+        android:layout_below="@id/button_book_filter_creation"
+        android:text="@string/button_collection_book"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:width="200dp"
+        android:onClick="btnShowCollection" />
+
+    <Button
+        android:layout_below="@id/show_collection"
+        android:text="@string/button_collection_book_filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:width="200dp"
+        android:onClick="btnShowCollectionFilter" />
+
+</RelativeLayout>

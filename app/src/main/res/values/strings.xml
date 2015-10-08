@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Librairie</string>
+    <string name="action_settings">Paramètres</string>
+    <string name="action_delete">Supprimer</string>
+
+    <string name="button_book_creation">Créer un livre</string>
+    <string name="button_book_filter_creation">Créer un filtre</string>
+    <string name="button_collection_book">Voir la collection</string>
+    <string name="button_collection_book_filter">Voir les filtres</string>
+    <string name="hint_book_title">Titre</string>
+    <string name="hint_book_author">Auteur</string>
+    <string name="hint_book_year">Année</string>
+    <string name="hint_book_edition">Edition</string>
+    <string name="hint_book_description">Description</string>
+    <string name="hint_book_filter_name">Nom du filtre</string>
+
+    <string name="title_activity_book_creation">Création de livre</string>
+    <string name="title_activity_collection_book">Liste des livres</string>
+    <string name="title_activity_book_filter_catalog">Liste des filtres</string>
+    <string name="title_activity_book_filter_creation">Création d\'un filtre</string>
+
+</resources>
