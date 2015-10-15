@@ -1,4 +1,4 @@
-package fr.dtrx.librairie;
+package fr.dtrx.librairie.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import fr.dtrx.librairie.fr.dtrx.librairie.model.BookFilterCatalog;
+import fr.dtrx.librairie.R;
 
 public class MainActivity extends Activity {
 

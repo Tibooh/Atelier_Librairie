@@ -1,4 +1,4 @@
-package fr.dtrx.librairie.fr.dtrx.librairie.model;
+package fr.dtrx.librairie.model;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -1,4 +1,4 @@
-package fr.dtrx.librairie.fr.dtrx.librairie.model;
+package fr.dtrx.librairie.model;
 
 /**
  * Created by doutriaux on 05/10/15.

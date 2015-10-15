@@ -1,7 +1,6 @@
-package fr.dtrx.librairie;
+package fr.dtrx.librairie.activities;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -10,8 +9,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import fr.dtrx.librairie.fr.dtrx.librairie.model.Book;
-import fr.dtrx.librairie.fr.dtrx.librairie.model.BookLibrary;
+import fr.dtrx.librairie.R;
+import fr.dtrx.librairie.model.Book;
+import fr.dtrx.librairie.model.BookLibrary;
 
 public class BookCreationActivity extends AppCompatActivity {
 
