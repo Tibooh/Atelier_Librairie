@@ -21,7 +21,7 @@
             android:label="@string/title_activity_book_creation" >
         </activity>
         <activity
-            android:name=".activities.CollectionBookActivity"
+            android:name=".activities.BookCatalogActivity"
             android:label="@string/title_activity_collection_book" >
         </activity>
         <activity
@@ -31,6 +31,14 @@
         <activity
             android:name=".activities.BookFilterCreationActivity"
             android:label="@string/title_activity_book_filter_creation" >
+        </activity>
+        <activity
+            android:name=".activities.BookActivity"
+            android:label="@string/title_activity_book" >
+        </activity>
+        <activity
+            android:name=".fragments.BookFragment"
+            android:label="@string/title_activity_fragment_book" >
         </activity>
     </application>
 

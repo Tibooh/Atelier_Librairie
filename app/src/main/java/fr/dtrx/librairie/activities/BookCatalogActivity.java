@@ -1,6 +1,7 @@
 package fr.dtrx.librairie.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -9,19 +10,20 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import fr.dtrx.librairie.R;
+import fr.dtrx.librairie.fragments.BookFragment;
 import fr.dtrx.librairie.model.Book;
 import fr.dtrx.librairie.model.BookFilter;
 import fr.dtrx.librairie.model.BookFilterCatalog;
 import fr.dtrx.librairie.model.BookLibrary;
 
-public class CollectionBookActivity extends AppCompatActivity {
+public class BookCatalogActivity extends AppCompatActivity {
 
     private int position_filter = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_collection_book);
+        setContentView(R.layout.activity_book_catalog);
 
         Intent intent = getIntent();
         position_filter = intent.getIntExtra(BookFilterCatalogActivity.ID_FILTER, -1);
@@ -84,6 +86,18 @@ public class CollectionBookActivity extends AppCompatActivity {
         }
 
         return bl;
+    }
+
+    public void onItemChose(Uri objet) {
+        BookFragment viewer = (BookFragment) getFragmentManager().findFragmentById(R.id.book_fragment);
+
+        if (viewer == null || viewer.isInLayout()) {
+            Intent detailIntent = new Intent(getApplicationContext(), BookActivity.class);
+            detailIntent.setData(objet);
+            startActivity(detailIntent);
+        } else {
+            viewer.afficherDetail(objet);
+        }
     }
 
 }

@@ -1,28 +1,25 @@
 package fr.dtrx.librairie.activities;
 
-import android.app.Activity;
-import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import fr.dtrx.librairie.R;
 
-public class MainActivity extends Activity {
+public class BookActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_book);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_book, menu);
         return true;
-        
     }
 
     @Override
@@ -39,25 +36,4 @@ public class MainActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    public void btnCreateBook(View view) {
-        Intent intent = new Intent(this, BookCreationActivity.class);
-        startActivity(intent);
-    }
-
-    public void btnCreateBookFilter(View view) {
-        Intent intent = new Intent(this, BookFilterCreationActivity.class);
-        startActivity(intent);
-    }
-
-    public void btnShowCollection(View view) {
-        Intent intent = new Intent(this, BookCatalogActivity.class);
-        startActivity(intent);
-    }
-
-    public void btnShowCollectionFilter(View view) {
-        Intent intent = new Intent(this, BookFilterCatalogActivity.class);
-        startActivity(intent);
-    }
-
 }

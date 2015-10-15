@@ -18,5 +18,9 @@
     <string name="title_activity_collection_book">Liste des livres</string>
     <string name="title_activity_book_filter_catalog">Liste des filtres</string>
     <string name="title_activity_book_filter_creation">Création d\'un filtre</string>
+    <string name="title_activity_book">BookActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_fragment_book">FragmentBook</string>
 
 </resources>

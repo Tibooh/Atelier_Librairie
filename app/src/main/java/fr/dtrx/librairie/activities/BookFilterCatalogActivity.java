@@ -33,7 +33,7 @@ public class BookFilterCatalogActivity extends AppCompatActivity {
         listView.setOnItemClickListener( new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent intent = new Intent(view.getContext(), CollectionBookActivity.class);
+                    Intent intent = new Intent(view.getContext(), BookCatalogActivity.class);
                     intent.putExtra(ID_FILTER, position);
                     startActivity(intent);
                 }
@@ -70,4 +70,5 @@ public class BookFilterCatalogActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
 }
