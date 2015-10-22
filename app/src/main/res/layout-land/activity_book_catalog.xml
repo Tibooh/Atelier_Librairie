@@ -1,0 +1,22 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <fragment
+        class="fr.dtrx.librairie.fragments.BookCatalogFragment"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:id="@+id/book_catalog_fragment"
+        android:layout_weight="30">
+    </fragment>
+    <fragment
+        class="fr.dtrx.librairie.fragments.BookFragment"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:id="@+id/book_fragment"
+        android:layout_weight="70">
+    </fragment>
+
+</LinearLayout>

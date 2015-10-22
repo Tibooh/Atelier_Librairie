@@ -3,9 +3,11 @@ package fr.dtrx.librairie.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -16,9 +18,10 @@ import fr.dtrx.librairie.model.BookFilter;
 import fr.dtrx.librairie.model.BookFilterCatalog;
 import fr.dtrx.librairie.model.BookLibrary;
 
-public class BookCatalogActivity extends AppCompatActivity {
+public class BookCatalogActivity extends FragmentActivity {
 
     private int position_filter = -1;
+    public static String ID_BOOK = "fr.dtrx.librairie.ID_BOOK";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,15 +31,7 @@ public class BookCatalogActivity extends AppCompatActivity {
         Intent intent = getIntent();
         position_filter = intent.getIntExtra(BookFilterCatalogActivity.ID_FILTER, -1);
 
-        /*Book[] books_list = {
-                new Book("aaa", "bbb"),
-                new Book("ccc", "ddd"),
-                new Book("eee", "fff"),
-                new Book("ggg", "hhh"),
-                new Book("iii", "jjj"),
-                new Book("kkk", "lll")
-        };*/
-        BookLibrary books = null;
+        BookLibrary books;
 
         if (position_filter != -1) books = filtered_books(position_filter);
         else books = BookLibrary.list;
@@ -47,6 +42,15 @@ public class BookCatalogActivity extends AppCompatActivity {
                 (this,android.R.layout.two_line_list_item, android.R.id.text1, books);
 
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(view.getContext(), BookActivity.class);
+                intent.putExtra(ID_BOOK, position);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -88,10 +92,11 @@ public class BookCatalogActivity extends AppCompatActivity {
         return bl;
     }
 
+    /*
     public void onItemChose(Uri objet) {
         BookFragment viewer = (BookFragment) getFragmentManager().findFragmentById(R.id.book_fragment);
 
-        if (viewer == null || viewer.isInLayout()) {
+        if (viewer == null || !viewer.isInLayout()) {
             Intent detailIntent = new Intent(getApplicationContext(), BookActivity.class);
             detailIntent.setData(objet);
             startActivity(detailIntent);
@@ -99,5 +104,6 @@ public class BookCatalogActivity extends AppCompatActivity {
             viewer.afficherDetail(objet);
         }
     }
+    */
 
 }

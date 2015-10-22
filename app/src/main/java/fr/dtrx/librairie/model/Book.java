@@ -7,7 +7,7 @@ public class Book {
 
     private String title;
     private String author;
-    private int year;
+    private String year;
     private String edition;
     private String description;
 
@@ -16,7 +16,7 @@ public class Book {
         this.author = author;
     }
 
-    public Book(String title, String author, int year, String edition, String description) {
+    public Book(String title, String author, String year, String edition, String description) {
         this(title, author);
         this.year = year;
         this.edition = edition;
@@ -31,7 +31,7 @@ public class Book {
     public String getAuthor() {
         return author;
     }
-    public int getYear() { return year; }
+    public String getYear() { return year; }
     public String getEdition() { return edition; }
     public String getDescription() { return description; }
 
@@ -43,7 +43,7 @@ public class Book {
     public void setAuthor(String author) {
         this.author = author;
     }
-    public void setYear(int year) { this.year = year; }
+    public void setYear(String year) { this.year = year; }
     public void setEdition(String edition) { this.edition = edition; }
     public void setDescription(String description) { this.description = description; }
 

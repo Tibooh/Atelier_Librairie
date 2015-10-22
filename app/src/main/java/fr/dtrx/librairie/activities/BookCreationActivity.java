@@ -51,7 +51,7 @@ public class BookCreationActivity extends AppCompatActivity {
         EditText edit_text_book_description = (EditText) findViewById(R.id.edit_text_book_description);
         String book_title = edit_text_book_title.getText().toString();
         String book_author = edit_text_book_author.getText().toString();
-        int book_year = Integer.parseInt(edit_text_book_year.getText().toString());
+        String book_year = edit_text_book_year.getText().toString();
         String book_edition = edit_text_book_edition.getText().toString();
         String book_description = edit_text_book_description.getText().toString();
 
