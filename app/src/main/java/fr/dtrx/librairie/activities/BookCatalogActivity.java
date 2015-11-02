@@ -46,9 +46,14 @@ public class BookCatalogActivity extends FragmentActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(view.getContext(), BookActivity.class);
-                intent.putExtra(ID_BOOK, position);
-                startActivity(intent);
+                BookFragment viewer = (BookFragment) getFragmentManager().findFragmentById(R.id.book_fragment);
+
+                if (viewer == null || !viewer.isInLayout()) {
+                    Intent intent = new Intent(getApplicationContext(), BookActivity.class);
+                    intent.putExtra(ID_BOOK, position);
+                    startActivity(intent);
+                }
+                else viewer.update(position);
             }
         });
     }
