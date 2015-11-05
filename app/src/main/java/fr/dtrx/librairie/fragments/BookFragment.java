@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import fr.dtrx.librairie.R;
 import fr.dtrx.librairie.model.Book;
-import fr.dtrx.librairie.model.BookLibrary;
+import fr.dtrx.librairie.model.BookCatalog;
 
 public class BookFragment extends Fragment {
 
@@ -29,7 +29,7 @@ public class BookFragment extends Fragment {
         TextView text_view_edition = (TextView) view.findViewById(R.id.book_edition);
         TextView text_view_description = (TextView) view.findViewById(R.id.book_description);
 
-        Book book = BookLibrary.list.get(position_book);
+        Book book = BookCatalog.list.get(position_book);
 
         text_view_title.setText(book.getTitle());
         text_view_author.setText(book.getAuthor());

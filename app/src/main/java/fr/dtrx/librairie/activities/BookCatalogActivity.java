@@ -1,7 +1,6 @@
 package fr.dtrx.librairie.activities;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
@@ -16,7 +15,7 @@ import fr.dtrx.librairie.fragments.BookFragment;
 import fr.dtrx.librairie.model.Book;
 import fr.dtrx.librairie.model.BookFilter;
 import fr.dtrx.librairie.model.BookFilterCatalog;
-import fr.dtrx.librairie.model.BookLibrary;
+import fr.dtrx.librairie.model.BookCatalog;
 
 public class BookCatalogActivity extends FragmentActivity {
 
@@ -31,10 +30,10 @@ public class BookCatalogActivity extends FragmentActivity {
         Intent intent = getIntent();
         position_filter = intent.getIntExtra(BookFilterCatalogActivity.ID_FILTER, -1);
 
-        BookLibrary books;
+        BookCatalog books;
 
         if (position_filter != -1) books = filtered_books(position_filter);
-        else books = BookLibrary.list;
+        else books = BookCatalog.list;
 
         ListView listView = (ListView) findViewById(R.id.books_list);
 
@@ -85,12 +84,12 @@ public class BookCatalogActivity extends FragmentActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public BookLibrary filtered_books(int position_filter) {
-        BookLibrary bl = new BookLibrary();
+    public BookCatalog filtered_books(int position_filter) {
+        BookCatalog bl = new BookCatalog();
         BookFilter bf = BookFilterCatalog.list.get(position_filter);
 
-        for (int i = 0; i < BookLibrary.list.size(); i++) {
-            Book book = BookLibrary.list.get(i);
+        for (int i = 0; i < BookCatalog.list.size(); i++) {
+            Book book = BookCatalog.list.get(i);
             if (bf.isSelected(book)) bl.add(book);
         }
 

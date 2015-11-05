@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import fr.dtrx.librairie.R;
 import fr.dtrx.librairie.model.Book;
-import fr.dtrx.librairie.model.BookLibrary;
+import fr.dtrx.librairie.model.BookCatalog;
 
 public class BookCreationActivity extends AppCompatActivity {
 
@@ -57,7 +57,7 @@ public class BookCreationActivity extends AppCompatActivity {
 
         if (book_title != null && book_title.length() > 0) {
             if (book_author != null && book_author.length() > 0) {
-                BookLibrary.list.add(new Book(book_title, book_author, book_year, book_edition, book_description));
+                BookCatalog.list.add(new Book(book_title, book_author, book_year, book_edition, book_description));
                 Toast.makeText(getApplicationContext(), "Livre créé" , Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
