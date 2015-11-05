@@ -1,14 +1,21 @@
 package fr.dtrx.librairie.model;
 
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
-/**
- * Created by doutriaux on 05/10/15.
- */
 public class BookCatalog extends ArrayList<Book> {
 
     public static BookCatalog list = initialization();
+
+    private DatabaseHelper databaseHelper = null;
+    private Dao<Book, Integer> bookDao;
+
 
     public BookCatalog() { super(); }
     public BookCatalog(int capacity) { super(capacity); }

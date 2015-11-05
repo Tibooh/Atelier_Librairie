@@ -7,10 +7,10 @@ import com.j256.ormlite.field.DatabaseField;
 public class Book implements Serializable{
 
     @DatabaseField(generatedId = true, columnName = "book_id")
-    public int teacherId;
+    public int bookId;
 
     @DatabaseField(columnName = "book_title")
-    public String title;
+    private String title;
 
     @DatabaseField(columnName = "book_author")
     private String author;
