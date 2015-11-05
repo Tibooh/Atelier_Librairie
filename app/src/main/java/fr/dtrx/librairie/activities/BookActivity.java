@@ -23,11 +23,11 @@ public class BookActivity extends FragmentActivity {
         Intent intent = getIntent();
 
         int position_book = intent.getIntExtra(BookCatalogActivity.ID_BOOK, -1);
-        //Log.println(Log.INFO, "INFO", "Book position: " + position_book);
         if (position_book == -1) return;
 
         BookFragment viewer = (BookFragment) getFragmentManager().findFragmentById(R.id.book_fragment);
-        viewer.update(position_book);
+        if (viewer != null && viewer.isInLayout())
+            viewer.update(position_book);
     }
 
     @Override
