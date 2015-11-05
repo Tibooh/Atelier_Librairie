@@ -8,14 +8,17 @@ import java.util.Collection;
  */
 public class BookCatalog extends ArrayList<Book> {
 
-    public static BookCatalog list = new BookCatalog();
+    public static BookCatalog list = initialization();
 
-    public BookCatalog() {
-        super();
-        ajouter();
-    }
+    public BookCatalog() { super(); }
     public BookCatalog(int capacity) { super(capacity); }
     public BookCatalog(Collection<? extends Book> collection) { super(collection); }
+
+    private static BookCatalog initialization() {
+        BookCatalog bc = new BookCatalog();
+        bc.ajouter();
+        return bc;
+    }
 
     private void ajouter() {
         add(new Book("Les misérables", "Victor Hugo", "1862", "Lacroix", "Les Misérables est un roman de Victor Hugo paru en 1862.\n" +

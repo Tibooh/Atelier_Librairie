@@ -13,9 +13,9 @@ import android.widget.ListView;
 import fr.dtrx.librairie.R;
 import fr.dtrx.librairie.fragments.BookFragment;
 import fr.dtrx.librairie.model.Book;
+import fr.dtrx.librairie.model.BookCatalog;
 import fr.dtrx.librairie.model.BookFilter;
 import fr.dtrx.librairie.model.BookFilterCatalog;
-import fr.dtrx.librairie.model.BookCatalog;
 
 public class BookCatalogActivity extends FragmentActivity {
 
@@ -75,7 +75,7 @@ public class BookCatalogActivity extends FragmentActivity {
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.action_delete) {
-            if (position_filter > -1) {
+            if (position_filter != -1) {
                 finish();
                 BookFilterCatalog.list.remove(position_filter);
             }
@@ -88,26 +88,11 @@ public class BookCatalogActivity extends FragmentActivity {
         BookCatalog bl = new BookCatalog();
         BookFilter bf = BookFilterCatalog.list.get(position_filter);
 
-        for (int i = 0; i < BookCatalog.list.size(); i++) {
-            Book book = BookCatalog.list.get(i);
-            if (bf.isSelected(book)) bl.add(book);
-        }
+        for (Book book : BookCatalog.list)
+            if (bf.isSelected(book))
+                bl.add(book);
 
         return bl;
     }
-
-    /*
-    public void onItemChose(Uri objet) {
-        BookFragment viewer = (BookFragment) getFragmentManager().findFragmentById(R.id.book_fragment);
-
-        if (viewer == null || !viewer.isInLayout()) {
-            Intent detailIntent = new Intent(getApplicationContext(), BookActivity.class);
-            detailIntent.setData(objet);
-            startActivity(detailIntent);
-        } else {
-            viewer.afficherDetail(objet);
-        }
-    }
-    */
 
 }
