@@ -1,15 +1,33 @@
 package fr.dtrx.librairie.model;
 
-/**
- * Created by doutriaux on 05/10/15.
- */
-public class Book {
+import java.io.Serializable;
 
-    private String title;
+import com.j256.ormlite.field.DatabaseField;
+
+public class Book implements Serializable{
+
+    @DatabaseField(generatedId = true, columnName = "book_id")
+    public int teacherId;
+
+    @DatabaseField(columnName = "book_title")
+    public String title;
+
+    @DatabaseField(columnName = "book_author")
     private String author;
+
+    @DatabaseField(columnName = "book_year")
     private String year;
+
+    @DatabaseField(columnName = "book_edition")
     private String edition;
+
+    @DatabaseField(columnName = "book_description")
     private String description;
+
+
+    public Book(){
+
+    }
 
     public Book(String title, String author) {
         this.title = title;
