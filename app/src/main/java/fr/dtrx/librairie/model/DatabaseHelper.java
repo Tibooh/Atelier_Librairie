@@ -23,7 +23,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	 * Suggested Copy/Paste code. Everything from here to the done block.
 	 ************************************************/
 
-	private static final String DATABASE_NAME = "studentdir.db";
+	private static final String DATABASE_NAME = "book.db";
 	private static final int DATABASE_VERSION = 1; 
 
 	private Dao<Book, Integer> bookDao;
@@ -44,7 +44,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			TableUtils.createTable(connectionSource, Book.class);
 
 		} catch (SQLException e) {
-			Log.e(DatabaseHelper.class.getName(), "Unable to create datbases", e);
+			Log.e(DatabaseHelper.class.getName(), "Unable to create databases", e);
 		}
 	}
 

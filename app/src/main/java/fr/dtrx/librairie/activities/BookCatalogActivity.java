@@ -1,14 +1,19 @@
 package fr.dtrx.librairie.activities;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import fr.dtrx.librairie.R;
 import fr.dtrx.librairie.fragments.BookFragment;
@@ -16,11 +21,28 @@ import fr.dtrx.librairie.model.Book;
 import fr.dtrx.librairie.model.BookCatalog;
 import fr.dtrx.librairie.model.BookFilter;
 import fr.dtrx.librairie.model.BookFilterCatalog;
+import fr.dtrx.librairie.model.DatabaseHelper;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.android.apptools.OpenHelperManager;
 
-public class BookCatalogActivity extends FragmentActivity {
+import java.sql.SQLException;
+import java.util.List;
+
+public class BookCatalogActivity extends FragmentActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
+
+    private ListView listView;
+
 
     private int position_filter = -1;
     public static String ID_BOOK = "fr.dtrx.librairie.ID_BOOK";
+
+
+    private DatabaseHelper databaseHelper = null;
+
+    private Dao<Book, Integer> bookDao;
+
+    private List<Book> books;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,58 +52,48 @@ public class BookCatalogActivity extends FragmentActivity {
         Intent intent = getIntent();
         position_filter = intent.getIntExtra(BookFilterCatalogActivity.ID_FILTER, -1);
 
-        BookCatalog books;
+        listView = (ListView) findViewById(R.id.books_list);
 
-        if (position_filter != -1) books = filtered_books(position_filter);
-        else books = BookCatalog.list;
 
-        ListView listView = (ListView) findViewById(R.id.books_list);
+        try {
 
-        ArrayAdapter<Book> adapter = new ArrayAdapter<>
-                (this,android.R.layout.two_line_list_item, android.R.id.text1, books);
+            bookDao = getHelper().getBookDao();
+            books = bookDao.queryForAll();
 
-        listView.setAdapter(adapter);
+            // Set the header of the ListView
+            final LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            final View rowView = inflater.inflate(R.layout.fragment_book_catalog, listView, false);
+            listView.addHeaderView(rowView);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                BookFragment viewer = (BookFragment) getFragmentManager().findFragmentById(R.id.book_fragment);
+            if (position_filter != -1) books = filtered_books(position_filter);
+            else books = BookCatalog.list;
 
-                if (viewer == null || !viewer.isInLayout()) {
-                    Intent intent = new Intent(getApplicationContext(), BookActivity.class);
-                    intent.putExtra(ID_BOOK, position);
-                    startActivity(intent);
+            ArrayAdapter<Book> adapter = new ArrayAdapter<>
+                    (this,android.R.layout.two_line_list_item, android.R.id.text1, books);
+
+            listView.setAdapter(adapter);
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    BookFragment viewer = (BookFragment) getFragmentManager().findFragmentById(R.id.book_fragment);
+
+                    if (viewer == null || !viewer.isInLayout()) {
+                        Intent intent = new Intent(getApplicationContext(), BookActivity.class);
+                        intent.putExtra(ID_BOOK, position);
+                        startActivity(intent);
+                    }
+                    else viewer.update(position);
                 }
-                else viewer.update(position);
-            }
-        });
-    }
+            });
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_collection_book, menu);
-        return true;
-    }
+            listView.setOnItemLongClickListener(this);
+            listView.setOnItemClickListener(this);
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.action_delete) {
-            if (position_filter != -1) {
-                finish();
-                BookFilterCatalog.list.remove(position_filter);
-            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public BookCatalog filtered_books(int position_filter) {
@@ -95,4 +107,91 @@ public class BookCatalogActivity extends FragmentActivity {
         return bl;
     }
 
+
+    // This is how, DatabaseHelper can be initialized for future use
+    private DatabaseHelper getHelper() {
+        if (databaseHelper == null) {
+            databaseHelper = OpenHelperManager.getHelper(this, DatabaseHelper.class);
+        }
+        return databaseHelper;
+    }
+
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if(position > 0)
+        {
+            // Details screen showing code can put over here
+        }
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position,long id) {
+
+        // If the pressed row is not a header, update selectedRecordPosition and show dialog for further selection
+        if(position > 0)
+        {
+            position_filter = position - 1;
+            showDialog();
+        }
+        return true;
+    }
+
+
+    private void showDialog()
+    {
+        // Before deletion of the long pressed record, need to confirm with the user. So, build the AlartBox first
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+        // Set the appropriate message into it.
+        alertDialogBuilder.setMessage("Are you Really want to delete the selected record ?");
+
+        // Add a positive button and it's action. In our case action would be deletion of the data
+        alertDialogBuilder.setPositiveButton("Delete",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        try {
+                            // This is how, data from the database can be deleted
+                            bookDao.delete(books.get(position_filter));
+
+                            // Removing the same from the List to remove from display as well
+                            books.remove(position_filter);
+                            listView.invalidateViews();
+
+                            // Reset the value of selectedRecordPosition
+                            position_filter = -1;
+                            populateNoRecordMsg();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+        // Add a negative button and it's action. In our case, just hide the dialog box
+        alertDialogBuilder.setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+
+        // Now, create the Dialog and show it.
+        final AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    private void populateNoRecordMsg()
+    {
+        // If, no record found in the database, appropriate message needs to be displayed.
+        if(books.size() == 0)
+        {
+            final TextView tv = new TextView(this);
+            tv.setPadding(5, 5, 5, 5);
+            tv.setTextSize(15);
+            tv.setText("No Record Found !!");
+            listView.addFooterView(tv);
+        }
+    }
 }
