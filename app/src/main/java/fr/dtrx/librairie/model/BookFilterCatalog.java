@@ -16,7 +16,7 @@ public class BookFilterCatalog extends ArrayList<BookFilter> {
 
     private static BookFilterCatalog initialization() {
         BookFilterCatalog bfc = new BookFilterCatalog();
-        bfc.ajouter();
+        //bfc.ajouter();
         return bfc;
     }
 
