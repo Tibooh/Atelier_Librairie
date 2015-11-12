@@ -33,7 +33,9 @@ public class BookCatalogActivity extends FragmentActivity implements AdapterView
     private ListView listView;
 
 
-    private int position_filter = -1;
+    private int id_filter = -1;
+    private int id_book = 0;
+
     public static String ID_BOOK = "fr.dtrx.librairie.ID_BOOK";
 
     private DatabaseHelper databaseHelper = null;
@@ -49,7 +51,7 @@ public class BookCatalogActivity extends FragmentActivity implements AdapterView
         setContentView(R.layout.activity_book_catalog);
 
         Intent intent = getIntent();
-        position_filter = intent.getIntExtra(BookFilterCatalogActivity.ID_FILTER, -1);
+        id_filter = intent.getIntExtra(BookFilterCatalogActivity.ID_FILTER, -1);
 
         listView = (ListView) findViewById(R.id.books_list);
 
@@ -59,7 +61,7 @@ public class BookCatalogActivity extends FragmentActivity implements AdapterView
             BookCatalog.list.clear();
             BookCatalog.list.addAll(bookDao.queryForAll());
 
-            if (position_filter != -1) books = filtered_books(position_filter);
+            if (id_filter != -1) books = filtered_books(id_filter);
             else books = BookCatalog.list;
 
             ArrayAdapter<Book> adapter = new ArrayAdapter<>
@@ -75,7 +77,7 @@ public class BookCatalogActivity extends FragmentActivity implements AdapterView
 
                     if (viewer == null || !viewer.isInLayout()) {
                         Intent intent = new Intent(getApplicationContext(), BookActivity.class);
-                        intent.putExtra(ID_BOOK, position);
+                        intent.putExtra("bookDetails", books.get(id_book));
                         startActivity(intent);
                     } else viewer.update(position);
                 }
@@ -104,51 +106,53 @@ public class BookCatalogActivity extends FragmentActivity implements AdapterView
         return databaseHelper;
     }
 
-    private int position_book = 0;
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position,long id) {
         // If the pressed row is not a header, update selectedRecordPosition and show dialog for further selection
-        position_book = position;
+        id_book = position;
         showDialog();
         return true;
     }
 
 
     private void showDialog() {
-        // Before deletion of the long pressed record, need to confirm with the user. So, build the AlartBox first
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
         // Set the appropriate message into it.
         //alertDialogBuilder.setMessage("");
 
         // Add a positive button and it's action. In our case action would be deletion of the data
-        alertDialogBuilder.setNeutralButton("Supprimer",
+        alertDialogBuilder.setNegativeButton("Supprimer",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
                         try {
                             // This is how, data from the database can be deleted
-                            bookDao.delete(books.get(position_book));
+                            bookDao.delete(books.get(id_book));
 
                             // Removing the same from the List to remove from display as well
-                            books.remove(position_book);
+                            books.remove(id_book);
                             listView.invalidateViews();
 
                             // Reset the value of selectedRecordPosition
-                            position_book = -1;
+                            id_book = -1;
                             populateNoRecordMsg();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
                 });
-        // Add a positive button and it's action. In our case action would be deletion of the data
+
         alertDialogBuilder.setNeutralButton("Modifier",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
                         try {
+
+                            Intent intent = new Intent(getApplicationContext(), BookCreationActivity.class);
+                            intent.putExtra("bookDetails", books.get(id_book));
+                            startActivity(intent);
 
                             populateNoRecordMsg();
                         } catch (Exception e) {
@@ -159,7 +163,7 @@ public class BookCatalogActivity extends FragmentActivity implements AdapterView
 
 
         // Add a negative button and it's action. In our case, just hide the dialog box
-        alertDialogBuilder.setNeutralButton("Annuler",
+        alertDialogBuilder.setPositiveButton("Annuler",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

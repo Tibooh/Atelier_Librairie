@@ -11,15 +11,18 @@ import fr.dtrx.librairie.model.BookCatalog;
 
 public class BookActivity extends FragmentActivity {
 
+
+    Book book;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_book);
 
-        Intent intent = getIntent();
 
-        int position_book = intent.getIntExtra(BookCatalogActivity.ID_BOOK, -1);
-        if (position_book == -1) return;
+        if (getIntent().getExtras().getSerializable("bookDetails")!=null) {
+            book = (Book) getIntent().getExtras().getSerializable("bookDetails");
+        }
 
         TextView text_view_title = (TextView) findViewById(R.id.book_title);
         TextView text_view_author = (TextView) findViewById(R.id.book_author);
@@ -27,7 +30,6 @@ public class BookActivity extends FragmentActivity {
         TextView text_view_edition = (TextView) findViewById(R.id.book_edition);
         TextView text_view_description = (TextView) findViewById(R.id.book_description);
 
-        Book book = BookCatalog.list.get(position_book);
 
         text_view_title.setText(book.getTitle());
         text_view_author.setText(book.getAuthor());
