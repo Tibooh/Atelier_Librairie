@@ -120,10 +120,10 @@ public class BookCatalogActivity extends FragmentActivity implements AdapterView
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
         // Set the appropriate message into it.
-        alertDialogBuilder.setMessage("Are you Really want to delete the selected record ?");
+        //alertDialogBuilder.setMessage("");
 
         // Add a positive button and it's action. In our case action would be deletion of the data
-        alertDialogBuilder.setPositiveButton("Delete",
+        alertDialogBuilder.setNeutralButton("Supprimer",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
@@ -143,9 +143,23 @@ public class BookCatalogActivity extends FragmentActivity implements AdapterView
                         }
                     }
                 });
+        // Add a positive button and it's action. In our case action would be deletion of the data
+        alertDialogBuilder.setNeutralButton("Modifier",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        try {
+
+                            populateNoRecordMsg();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
 
         // Add a negative button and it's action. In our case, just hide the dialog box
-        alertDialogBuilder.setNegativeButton("Cancel",
+        alertDialogBuilder.setNeutralButton("Annuler",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
