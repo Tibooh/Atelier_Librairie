@@ -6,6 +6,8 @@ import com.j256.ormlite.field.DatabaseField;
 
 public class Book implements Serializable{
 
+
+
     @DatabaseField(generatedId = true, columnName = "book_id")
     public int bookId;
 
@@ -42,7 +44,9 @@ public class Book implements Serializable{
     }
 
     // GETTERS
-
+    public int getBookId() {
+        return bookId;
+    }
     public String getTitle() {
         return title;
     }

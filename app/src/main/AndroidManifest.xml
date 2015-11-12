@@ -40,6 +40,10 @@
             android:name=".fragments.BookFragment"
             android:label="@string/title_activity_fragment_book" >
         </activity>
+        <activity
+            android:name=".activities.BookUpdateActivity"
+            android:label="@string/title_activity_book_update" >
+        </activity>
     </application>
 
 </manifest>

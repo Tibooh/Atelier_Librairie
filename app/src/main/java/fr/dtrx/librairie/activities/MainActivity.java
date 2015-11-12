@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import fr.dtrx.librairie.R;
+import fr.dtrx.librairie.model.Book;
 
 public class MainActivity extends Activity {
 
@@ -19,6 +20,7 @@ public class MainActivity extends Activity {
 
     public void btnCreateBook(View view) {
         Intent intent = new Intent(this, BookCreationActivity.class);
+        intent.putExtra("bookDetail", new Book());
         startActivity(intent);
     }
 

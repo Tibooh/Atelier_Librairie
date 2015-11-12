@@ -150,8 +150,8 @@ public class BookCatalogActivity extends FragmentActivity implements AdapterView
                     public void onClick(DialogInterface arg0, int arg1) {
                         try {
 
-                            Intent intent = new Intent(getApplicationContext(), BookCreationActivity.class);
-                            intent.putExtra("bookDetails", books.get(id_book));
+                            Intent intent = new Intent(getApplicationContext(), BookUpdateActivity.class);
+                            intent.putExtra("bookDetail", books.get(id_book));
                             startActivity(intent);
 
                             populateNoRecordMsg();
