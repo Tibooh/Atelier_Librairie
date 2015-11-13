@@ -58,7 +58,9 @@ public class Book implements Serializable{
     public String getDescription() { return description; }
 
     // SETTERS
-
+    public void setId(int bookId) {
+        this.bookId = bookId;
+    }
     public void setTitle(String title) {
         this.title = title;
     }

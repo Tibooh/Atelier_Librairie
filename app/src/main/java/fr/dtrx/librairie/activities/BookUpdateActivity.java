@@ -1,5 +1,6 @@
 package fr.dtrx.librairie.activities;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -25,12 +26,12 @@ public class BookUpdateActivity extends ActionBarActivity {
     EditText edit_text_book_year;
     EditText edit_text_book_edition;
     EditText edit_text_book_description;
-    Book upDetails;
+    Book book;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_book_creation);
+        setContentView(R.layout.activity_book_update);
 
         edit_text_book_title = (EditText) findViewById(R.id.edit_text_book_title);
         edit_text_book_author = (EditText) findViewById(R.id.edit_text_book_author);
@@ -38,13 +39,13 @@ public class BookUpdateActivity extends ActionBarActivity {
         edit_text_book_edition = (EditText) findViewById(R.id.edit_text_book_edition);
         edit_text_book_description = (EditText) findViewById(R.id.edit_text_book_description);
 
-        upDetails = (Book) getIntent().getExtras().getSerializable("bookDetail");
+        book = (Book) getIntent().getExtras().getSerializable("bookDetail");
 
-        edit_text_book_title.setText(upDetails.getTitle());
-        edit_text_book_author.setText(upDetails.getAuthor());
-        edit_text_book_year.setText(upDetails.getYear());
-        edit_text_book_edition.setText(upDetails.getEdition());
-        edit_text_book_description.setText(upDetails.getDescription());
+        edit_text_book_title.setText(book.getTitle());
+        edit_text_book_author.setText(book.getAuthor());
+        edit_text_book_year.setText(book.getYear());
+        edit_text_book_edition.setText(book.getEdition());
+        edit_text_book_description.setText(book.getDescription());
     }
 
     // This is how, DatabaseHelper can be initialized for future use
@@ -66,7 +67,6 @@ public class BookUpdateActivity extends ActionBarActivity {
             if (book_author != null && book_author.length() > 0) {
 
                 // Once click on "Submit", it's first creates the TeacherDetails object
-                final Book book = new Book();
 
                 // Then, set all the values from user
                 book.setTitle(book_title);
@@ -81,7 +81,12 @@ public class BookUpdateActivity extends ActionBarActivity {
 
                     //This is the way to insert data into a database table
                     bookDao.update(book);
+
                     Toast.makeText(getApplicationContext(), "Livre modifié", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(getApplicationContext(), BookCatalogActivity.class);
+                    startActivity(intent);
+
 
 
                 } catch (SQLException e) {
