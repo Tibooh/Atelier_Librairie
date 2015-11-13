@@ -1,40 +1,48 @@
-# --table-start--
 dataClass=fr.dtrx.librairie.model.Book
 tableName=book
-# --table-fields-start--
 
-# --field-start--
 fieldName=bookId
 columnName=book_id
 generatedId=true
-# --field-end--
 
-# --field-start--
 fieldName=title
 columnName=book_title
-# --field-end--
 
-# --field-start--
 fieldName=author
 columnName=book_author
-# --field-end--
 
-# --field-start--
 fieldName=year
 columnName=book_year
-# --field-end--
 
-# --field-start--
 fieldName=edition
 columnName=book_edition
-# --field-end--
 
-# --field-start--
 fieldName=description
 columnName=book_description
-# --field-end--
-
-# --table-fields-end--
-# --table-end--
 #################################
 
+dataClass=fr.dtrx.librairie.model.BookFilter
+tableName=bookFilter
+
+fieldName=bookFilterId
+columnName=book_filter_id
+generatedId=true
+
+fieldName=name
+columnName=book_name
+
+fieldName=title
+columnName=book_title
+
+fieldName=author
+columnName=book_author
+
+fieldName=year
+columnName=book_year
+
+fieldName=edition
+columnName=book_edition
+
+fieldName=description
+columnName=book_description
+#################################

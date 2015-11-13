@@ -37,13 +37,20 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/edit_text_book_year" />
 
+    <EditText android:id="@+id/edit_text_book_description"
+        android:hint="@string/hint_book_description"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_text_book_edition"
+        android:height="100dp"/>
+
     <Button
         android:text="@string/button_book_filter_creation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:width="200dp"
         android:layout_marginTop="20dp"
-        android:layout_below="@+id/edit_text_book_edition"
+        android:layout_below="@+id/edit_text_book_description"
         android:layout_centerHorizontal="true"
         android:onClick="btnCreateBookFilter"/>
 

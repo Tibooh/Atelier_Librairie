@@ -19,6 +19,7 @@ public class BookActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_book);
 
+        Intent intent = getIntent();
 
         if (getIntent().getExtras().getSerializable("bookDetails")!=null) {
             book = (Book) getIntent().getExtras().getSerializable("bookDetails");

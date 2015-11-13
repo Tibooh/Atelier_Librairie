@@ -77,7 +77,7 @@ public class BookCatalogActivity extends FragmentActivity implements AdapterView
 
                     if (viewer == null || !viewer.isInLayout()) {
                         Intent intent = new Intent(getApplicationContext(), BookActivity.class);
-                        intent.putExtra("bookDetails", books.get(id_book));
+                        intent.putExtra("bookDetails", ((Book)listView.getItemAtPosition(position)));
                         startActivity(intent);
                     } else viewer.update(position);
                 }
@@ -87,12 +87,12 @@ public class BookCatalogActivity extends FragmentActivity implements AdapterView
         }
     }
 
-    public BookCatalog filtered_books(int position_filter) {
+    public BookCatalog filtered_books(int id_filter) {
         BookCatalog bl = new BookCatalog();
-        BookFilter bf = BookFilterCatalog.list.get(position_filter);
+        BookFilter bf = BookFilterCatalog.list.search(id_filter);
 
         for (Book book : BookCatalog.list)
-            if (bf.isSelected(book))
+            if (bf.check(book))
                 bl.add(book);
 
         return bl;
@@ -117,6 +117,7 @@ public class BookCatalogActivity extends FragmentActivity implements AdapterView
 
 
     private void showDialog() {
+        // Before deletion of the long pressed record, need to confirm with the user. So, build the AlartBox first
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
         // Set the appropriate message into it.
@@ -182,7 +183,7 @@ public class BookCatalogActivity extends FragmentActivity implements AdapterView
             final TextView tv = new TextView(this);
             tv.setPadding(5, 5, 5, 5);
             tv.setTextSize(15);
-            tv.setText("No Record Found !!");
+            tv.setText("Aucun livre");
             listView.addFooterView(tv);
         }
     }
