@@ -1,5 +1,8 @@
 package fr.dtrx.librairie.model;
 
+import com.j256.ormlite.dao.Dao;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -17,6 +20,15 @@ public class BookFilterCatalog extends ArrayList<BookFilter> {
         }
 
         return null;
+    }
+
+    public static void refresh(Dao<BookFilter, Integer> bookFilterDao) {
+        try {
+            BookFilterCatalog.list.clear();
+            BookFilterCatalog.list.addAll(bookFilterDao.queryForAll());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private void ajouter() {

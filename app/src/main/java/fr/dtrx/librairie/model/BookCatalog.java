@@ -29,6 +29,15 @@ public class BookCatalog extends ArrayList<Book> {
         return null;
     }
 
+    public static void refresh(Dao<Book, Integer> bookDao) {
+        try {
+            BookCatalog.list.clear();
+            BookCatalog.list.addAll(bookDao.queryForAll());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void ajouter() {
         /*
         add(new Book("Les misérables", "Victor Hugo", "1862", "Lacroix", "Les Misérables est un roman de Victor Hugo paru en 1862.\n" +

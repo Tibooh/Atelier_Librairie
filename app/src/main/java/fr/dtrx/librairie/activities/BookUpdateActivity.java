@@ -1,10 +1,8 @@
 package fr.dtrx.librairie.activities;
 
-import android.content.Intent;
+import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -18,7 +16,7 @@ import fr.dtrx.librairie.R;
 import fr.dtrx.librairie.model.Book;
 import fr.dtrx.librairie.model.DatabaseHelper;
 
-public class BookUpdateActivity extends ActionBarActivity {
+public class BookUpdateActivity extends Activity {
 
     private DatabaseHelper databaseHelper = null;
     EditText edit_text_book_title;
@@ -63,8 +61,8 @@ public class BookUpdateActivity extends ActionBarActivity {
         String book_edition = edit_text_book_edition.getText().toString();
         String book_description = edit_text_book_description.getText().toString();
 
-        if (book_title != null && book_title.length() > 0) {
-            if (book_author != null && book_author.length() > 0) {
+        if (book_title.length() > 0) {
+            if (book_author.length() > 0) {
 
                 // Once click on "Submit", it's first creates the TeacherDetails object
 
@@ -84,11 +82,7 @@ public class BookUpdateActivity extends ActionBarActivity {
 
                     Toast.makeText(getApplicationContext(), "Livre modifié", Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(getApplicationContext(), BookCatalogActivity.class);
-                    startActivity(intent);
-
-
-
+                    finish();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
