@@ -132,6 +132,23 @@ public class BookCatalogActivity extends FragmentActivity implements AdapterView
                     }
                 });
 
+        alertDialogBuilder.setNeutralButton("Modifier",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        try {
+
+                            Intent intent = new Intent(getApplicationContext(), BookUpdateActivity.class);
+                            intent.putExtra("bookDetail", books.get(id_book));
+                            startActivityForResult(intent, 0);
+
+                            populateNoRecordMsg();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
         // Add a negative button and it's action. In our case, just hide the dialog box
         alertDialogBuilder.setNegativeButton("Annuler",
                 new DialogInterface.OnClickListener() {
