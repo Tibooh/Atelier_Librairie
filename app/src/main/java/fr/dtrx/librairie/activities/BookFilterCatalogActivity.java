@@ -119,14 +119,13 @@ public class BookFilterCatalogActivity extends Activity implements AdapterView.O
                     }
                 });
 
-        /*
         alertDialogBuilder.setNeutralButton("Modifier",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
                         try {
                             Intent intent = new Intent(getApplicationContext(), BookFilterUpdateActivity.class);
-                            intent.putExtra("bookDetail", bookFilters.get(id_book_filter));
+                            intent.putExtra("bookFilterDetails", bookFilters.get(id_book_filter));
                             startActivityForResult(intent, 0);
 
                             populateNoRecordMsg();
@@ -135,7 +134,6 @@ public class BookFilterCatalogActivity extends Activity implements AdapterView.O
                         }
                     }
                 });
-        */
 
         // Add a negative button and it's action. In our case, just hide the dialog box
         alertDialogBuilder.setPositiveButton("Annuler",
