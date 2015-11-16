@@ -18,12 +18,11 @@ import java.sql.SQLException;
 import java.util.List;
 
 import fr.dtrx.librairie.R;
-import fr.dtrx.librairie.model.BookCatalog;
 import fr.dtrx.librairie.model.BookFilter;
 import fr.dtrx.librairie.model.BookFilterCatalog;
 import fr.dtrx.librairie.model.DatabaseHelper;
 
-public class BookFilterCatalogActivity extends Activity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
+public class BookFilterCatalogActivity extends Activity implements AdapterView.OnItemLongClickListener {
 
     public static String ID_FILTER = "fr.dtrx.librairie.ID_FILTER";
 
@@ -56,8 +55,16 @@ public class BookFilterCatalogActivity extends Activity implements AdapterView.O
 
         listView.setAdapter(adapter);
 
-        listView.setOnItemLongClickListener(this);
-        listView.setOnItemClickListener(this);
+        listView.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Intent intent = new Intent(view.getContext(), BookCatalogActivity.class);
+                        intent.putExtra(ID_FILTER, ((BookFilter)listView.getItemAtPosition(position)).getBookFilterId());
+                        startActivity(intent);
+                    }
+                }
+        );
     }
 
     @Override
@@ -79,13 +86,6 @@ public class BookFilterCatalogActivity extends Activity implements AdapterView.O
     private int id_book_filter = 0;
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent(view.getContext(), BookCatalogActivity.class);
-        intent.putExtra(ID_FILTER, ((BookFilter) listView.getItemAtPosition(position)).getBookFilterId());
-        startActivity(intent);
-    }
-
-    @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position,long id) {
         // If the pressed row is not a header, update selectedRecordPosition and show dialog for further selection
         id_book_filter = position;
@@ -93,12 +93,13 @@ public class BookFilterCatalogActivity extends Activity implements AdapterView.O
         return true;
     }
 
+
     private void showDialog() {
         // Before deletion of the long pressed record, need to confirm with the user. So, build the AlartBox first
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
         // Add a positive button and it's action. In our case action would be deletion of the data
-        alertDialogBuilder.setNegativeButton("Supprimer",
+        alertDialogBuilder.setPositiveButton("Supprimer",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
@@ -119,30 +120,11 @@ public class BookFilterCatalogActivity extends Activity implements AdapterView.O
                     }
                 });
 
-        /*
-        alertDialogBuilder.setNeutralButton("Modifier",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        try {
-                            Intent intent = new Intent(getApplicationContext(), BookFilterUpdateActivity.class);
-                            intent.putExtra("bookDetail", bookFilters.get(id_book_filter));
-                            startActivityForResult(intent, 0);
-
-                            populateNoRecordMsg();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-        */
-
         // Add a negative button and it's action. In our case, just hide the dialog box
-        alertDialogBuilder.setPositiveButton("Annuler",
+        alertDialogBuilder.setNegativeButton("Annuler",
                 new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
+                    public void onClick(DialogInterface dialog, int which) {}
                 });
 
         // Now, create the Dialog and show it.
@@ -152,19 +134,14 @@ public class BookFilterCatalogActivity extends Activity implements AdapterView.O
 
     private void populateNoRecordMsg() {
         // If, no record found in the database, appropriate message needs to be displayed.
-        if(bookFilters.size() == 0) {
+        if(bookFilters.size() == 0)
+        {
             final TextView tv = new TextView(this);
             tv.setPadding(5, 5, 5, 5);
             tv.setTextSize(15);
             tv.setText("Aucun filtre");
             listView.addFooterView(tv);
         }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        BookFilterCatalog.refresh(bookFilterDao);
     }
 
 }

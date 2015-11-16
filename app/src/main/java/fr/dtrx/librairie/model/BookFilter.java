@@ -4,6 +4,9 @@ import com.j256.ormlite.field.DatabaseField;
 
 import java.io.Serializable;
 
+/**
+ * Created by Quentin on 06/10/2015.
+ */
 public class BookFilter implements Serializable {
 
     @DatabaseField(generatedId = true, columnName = "book_filter_id")
@@ -59,12 +62,13 @@ public class BookFilter implements Serializable {
      * @return true si le 'book' verifie les filtres, faux sinon
      */
     public boolean check(Book book) {
-        return
-            !((isFieldNull(getTitle()) &&           !book.getTitle().contains(getTitle()))
-            || (isFieldNull(getAuthor()) &&         !book.getAuthor().contains(getAuthor()))
-            || (isFieldNull(getYear()) &&           !book.getYear().equals(getYear()))
-            || (isFieldNull(getEdition()) &&        !book.getEdition().contains(getEdition()))
-            || (isFieldNull(getDescription()) &&    !book.getDescription().contains(getDescription())));
+        if ((isFieldNull(getTitle()) &&         !book.getTitle().contains(getTitle()))
+        || (isFieldNull(getAuthor()) &&         !book.getAuthor().contains(getAuthor()))
+        || (isFieldNull(getYear()) &&           !book.getYear().equals(getYear()))
+        || (isFieldNull(getEdition()) &&        !book.getEdition().contains(getEdition()))
+        || (isFieldNull(getDescription()) &&    !book.getDescription().contains(getDescription()))) return false;
+
+        return true;
     }
 
     public boolean isFieldNull(String field) {

@@ -4,10 +4,13 @@ import java.io.Serializable;
 
 import com.j256.ormlite.field.DatabaseField;
 
-public class Book implements Serializable{
+public class Book implements Serializable {
 
     @DatabaseField(generatedId = true, columnName = "book_id")
     public int bookId;
+
+    @DatabaseField(columnName = "book_image")
+    private int image;
 
     @DatabaseField(columnName = "book_title")
     private String title;
@@ -25,25 +28,12 @@ public class Book implements Serializable{
     private String description;
 
 
-    public Book(){
-
-    }
-
-    public Book(String title, String author) {
-        this.title = title;
-        this.author = author;
-    }
-
-    public Book(String title, String author, String year, String edition, String description) {
-        this(title, author);
-        this.year = year;
-        this.edition = edition;
-        this.description = description;
-    }
+    public Book() {}
 
     // GETTERS
 
     public int getBookId() { return bookId;}
+    public int getImage() { return image; }
     public String getTitle() { return title; }
     public String getAuthor() { return author; }
     public String getYear() { return year; }
@@ -52,6 +42,7 @@ public class Book implements Serializable{
 
     // SETTERS
 
+    public void setImage(int image) { this.image = image; }
     public void setTitle(String title) { this.title = title; }
     public void setAuthor(String author) { this.author = author; }
     public void setYear(String year) { this.year = year; }

@@ -5,6 +5,9 @@ fieldName=bookId
 columnName=book_id
 generatedId=true
 
+fieldName=image
+columnName=book_image
+
 fieldName=title
 columnName=book_title
 
