@@ -6,6 +6,7 @@
     <string name="button_book_creation">Créer un livre</string>
     <string name="button_book_update">Modifier ce livre</string>
     <string name="button_book_filter_creation">Créer un filtre</string>
+    <string name="button_book_filter_update">Modifier le filtre</string>
     <string name="button_collection_book">Voir la collection</string>
     <string name="button_collection_book_filter">Voir les filtres</string>
     <string name="hint_book_image">Image</string>
@@ -24,6 +25,7 @@
 
     <string name="title_activity_fragment_book">FragmentBook</string>
     <string name="title_activity_book_update">BookUpdateActivity</string>
+    <string name="title_activity_book_filter_update">BookFilterUpdate</string>
     <string name="title_activity_book_adapter">BookAdapterActivity</string>
 
 </resources>
