@@ -13,10 +13,6 @@ public class BookCatalog extends ArrayList<Book> {
 
     public static BookCatalog list = new BookCatalog();
 
-    private DatabaseHelper databaseHelper = null;
-    private Dao<Book, Integer> bookDao;
-
-
     public BookCatalog() { super(); }
     public BookCatalog(int capacity) { super(capacity); }
     public BookCatalog(Collection<? extends Book> collection) { super(collection); }
@@ -31,8 +27,8 @@ public class BookCatalog extends ArrayList<Book> {
 
     public static void refresh(Dao<Book, Integer> bookDao) {
         try {
-            BookCatalog.list.clear();
-            BookCatalog.list.addAll(bookDao.queryForAll());
+            list.clear();
+            list.addAll(bookDao.queryForAll());
         } catch (SQLException e) {
             e.printStackTrace();
         }

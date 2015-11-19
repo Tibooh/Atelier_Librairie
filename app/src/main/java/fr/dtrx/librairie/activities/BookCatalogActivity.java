@@ -10,6 +10,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
 import fr.dtrx.librairie.R;
 import fr.dtrx.librairie.adapters.BookCatalogAdapter;
 import fr.dtrx.librairie.fragments.BookFragment;
@@ -18,11 +24,6 @@ import fr.dtrx.librairie.model.BookCatalog;
 import fr.dtrx.librairie.model.BookFilter;
 import fr.dtrx.librairie.model.BookFilterCatalog;
 import fr.dtrx.librairie.model.DatabaseHelper;
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.android.apptools.OpenHelperManager;
-
-import java.sql.SQLException;
-import java.util.List;
 
 public class BookCatalogActivity extends FragmentActivity implements AdapterView.OnItemLongClickListener {
 
@@ -73,6 +74,15 @@ public class BookCatalogActivity extends FragmentActivity implements AdapterView
         }
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        BookCatalog.refresh(bookDao);
+        Intent intent = new Intent(this, BookCatalogActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     public BookCatalog filtered_books(int id_filter) {
         BookCatalog bl = new BookCatalog();
         BookFilter bf = BookFilterCatalog.list.search(id_filter);
@@ -111,7 +121,7 @@ public class BookCatalogActivity extends FragmentActivity implements AdapterView
         //alertDialogBuilder.setMessage("");
 
         // Add a positive button and it's action. In our case action would be deletion of the data
-        alertDialogBuilder.setPositiveButton("Supprimer",
+        alertDialogBuilder.setNegativeButton("Supprimer",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
@@ -132,8 +142,24 @@ public class BookCatalogActivity extends FragmentActivity implements AdapterView
                     }
                 });
 
+        alertDialogBuilder.setNeutralButton("Modifier",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        try {
+                            Intent intent = new Intent(getApplicationContext(), BookUpdateActivity.class);
+                            intent.putExtra("bookDetail", books.get(id_book));
+                            startActivityForResult(intent, 0);
+
+                            populateNoRecordMsg();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
         // Add a negative button and it's action. In our case, just hide the dialog box
-        alertDialogBuilder.setNegativeButton("Annuler",
+        alertDialogBuilder.setPositiveButton("Annuler",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {}
@@ -146,8 +172,7 @@ public class BookCatalogActivity extends FragmentActivity implements AdapterView
 
     private void populateNoRecordMsg() {
         // If, no record found in the database, appropriate message needs to be displayed.
-        if(books.size() == 0)
-        {
+        if(books.size() == 0) {
             final TextView tv = new TextView(this);
             tv.setPadding(5, 5, 5, 5);
             tv.setTextSize(15);
@@ -155,4 +180,5 @@ public class BookCatalogActivity extends FragmentActivity implements AdapterView
             listView.addFooterView(tv);
         }
     }
+
 }
