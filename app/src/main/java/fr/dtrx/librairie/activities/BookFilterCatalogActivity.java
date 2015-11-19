@@ -18,7 +18,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import fr.dtrx.librairie.R;
-import fr.dtrx.librairie.model.BookCatalog;
 import fr.dtrx.librairie.model.BookFilter;
 import fr.dtrx.librairie.model.BookFilterCatalog;
 import fr.dtrx.librairie.model.DatabaseHelper;
@@ -63,6 +62,7 @@ public class BookFilterCatalogActivity extends Activity implements AdapterView.O
     @Override
     protected void onRestart() {
         super.onRestart();
+        BookFilterCatalog.refresh(bookFilterDao);
         Intent intent = new Intent(this, BookFilterCatalogActivity.class);
         startActivity(intent);
         finish();
@@ -139,8 +139,7 @@ public class BookFilterCatalogActivity extends Activity implements AdapterView.O
         alertDialogBuilder.setPositiveButton("Annuler",
                 new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
+                    public void onClick(DialogInterface dialog, int which) {}
                 });
 
         // Now, create the Dialog and show it.
@@ -157,12 +156,6 @@ public class BookFilterCatalogActivity extends Activity implements AdapterView.O
             tv.setText("Aucun filtre");
             listView.addFooterView(tv);
         }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        BookFilterCatalog.refresh(bookFilterDao);
     }
 
 }

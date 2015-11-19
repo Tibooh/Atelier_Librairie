@@ -24,18 +24,11 @@ public class BookFilterCatalog extends ArrayList<BookFilter> {
 
     public static void refresh(Dao<BookFilter, Integer> bookFilterDao) {
         try {
-            BookFilterCatalog.list.clear();
-            BookFilterCatalog.list.addAll(bookFilterDao.queryForAll());
+            list.clear();
+            list.addAll(bookFilterDao.queryForAll());
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    private void ajouter() {
-        /*
-        add(new BookFilter("Livre de Victor Hugo", "", "Victor Hugo"));
-        add(new BookFilter("Livre d'Emile Zola", "", "Emile Zola"));
-        */
     }
 
 }
