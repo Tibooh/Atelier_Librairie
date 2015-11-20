@@ -33,6 +33,8 @@ public class BookFilterCatalogActivity extends Activity implements AdapterView.O
 
     private List<BookFilter> bookFilters;
 
+    private int id_book_filter = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +44,7 @@ public class BookFilterCatalogActivity extends Activity implements AdapterView.O
 
         try {
             bookFilterDao = getHelper().getBookFilterDao();
-            BookFilterCatalog.list.clear();
-            BookFilterCatalog.list.addAll(bookFilterDao.queryForAll());
+            BookFilterCatalog.refresh(bookFilterDao);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -75,8 +76,6 @@ public class BookFilterCatalogActivity extends Activity implements AdapterView.O
         }
         return databaseHelper;
     }
-
-    private int id_book_filter = 0;
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

@@ -21,11 +21,9 @@ import fr.dtrx.librairie.adapters.BookCatalogAdapter;
 import fr.dtrx.librairie.fragments.BookFragment;
 import fr.dtrx.librairie.model.Book;
 import fr.dtrx.librairie.model.BookCatalog;
-import fr.dtrx.librairie.model.BookFilter;
-import fr.dtrx.librairie.model.BookFilterCatalog;
 import fr.dtrx.librairie.model.DatabaseHelper;
 
-public class BookCatalogActivity extends FragmentActivity implements AdapterView.OnItemLongClickListener {
+public class BookCatalogActivity extends FragmentActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     public static String ID_BOOK = "fr.dtrx.librairie.ID_BOOK";
 
@@ -35,6 +33,8 @@ public class BookCatalogActivity extends FragmentActivity implements AdapterView
     private Dao<Book, Integer> bookDao;
 
     private List<Book> books;
+
+    private int id_book = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,27 +48,15 @@ public class BookCatalogActivity extends FragmentActivity implements AdapterView
 
         try {
             bookDao = getHelper().getBookDao();
-            BookCatalog.list.clear();
-            BookCatalog.list.addAll(bookDao.queryForAll());
+            BookCatalog.refresh(bookDao);
 
-            if (id_filter != -1) books = filtered_books(id_filter);
+            if (id_filter != -1) books = BookCatalog.filterBooks(id_filter);
             else books = BookCatalog.list;
 
             listView.setAdapter(new BookCatalogAdapter(this, books));
 
             listView.setOnItemLongClickListener(this);
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    BookFragment viewer = (BookFragment) getFragmentManager().findFragmentById(R.id.book_fragment);
-
-                    if (viewer == null || !viewer.isInLayout()) {
-                        Intent intent = new Intent(getApplicationContext(), BookActivity.class);
-                        intent.putExtra(ID_BOOK, ((Book) listView.getItemAtPosition(position)).getBookId());
-                        startActivity(intent);
-                    } else viewer.update(position);
-                }
-            });
+            listView.setOnItemClickListener(this);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -83,17 +71,6 @@ public class BookCatalogActivity extends FragmentActivity implements AdapterView
         finish();
     }
 
-    public BookCatalog filtered_books(int id_filter) {
-        BookCatalog bl = new BookCatalog();
-        BookFilter bf = BookFilterCatalog.list.search(id_filter);
-
-        for (Book book : BookCatalog.list)
-            if (bf.check(book))
-                bl.add(book);
-
-        return bl;
-    }
-
     // This is how, DatabaseHelper can be initialized for future use
     private DatabaseHelper getHelper() {
         if (databaseHelper == null) {
@@ -102,7 +79,16 @@ public class BookCatalogActivity extends FragmentActivity implements AdapterView
         return databaseHelper;
     }
 
-    private int id_book = 0;
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        BookFragment viewer = (BookFragment) getFragmentManager().findFragmentById(R.id.book_fragment);
+
+        if (viewer == null || !viewer.isInLayout()) {
+            Intent intent = new Intent(getApplicationContext(), BookActivity.class);
+            intent.putExtra(ID_BOOK, ((Book) listView.getItemAtPosition(position)).getBookId());
+            startActivity(intent);
+        } else viewer.update(position);
+    }
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position,long id) {
@@ -116,9 +102,6 @@ public class BookCatalogActivity extends FragmentActivity implements AdapterView
     private void showDialog() {
         // Before deletion of the long pressed record, need to confirm with the user. So, build the AlartBox first
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
-        // Set the appropriate message into it.
-        //alertDialogBuilder.setMessage("");
 
         // Add a positive button and it's action. In our case action would be deletion of the data
         alertDialogBuilder.setNegativeButton("Supprimer",

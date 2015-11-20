@@ -34,6 +34,17 @@ public class BookCatalog extends ArrayList<Book> {
         }
     }
 
+    public static BookCatalog filterBooks(int id_filter) {
+        BookCatalog bc = new BookCatalog();
+        BookFilter bf = BookFilterCatalog.list.search(id_filter);
+
+        for (Book book : list)
+            if (bf.check(book))
+                bc.add(book);
+
+        return bc;
+    }
+
     private void ajouter() {
         /*
         add(new Book("Les misérables", "Victor Hugo", "1862", "Lacroix", "Les Misérables est un roman de Victor Hugo paru en 1862.\n" +

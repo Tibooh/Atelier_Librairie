@@ -1,6 +1,8 @@
 package fr.dtrx.librairie.adapters;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,16 +31,19 @@ public class BookCatalogAdapter extends ArrayAdapter<Book> {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.adapter_book_catalog, null, true);
 
-        ImageView imageView = (ImageView) rowView.findViewById(R.id.book_image);
-        TextView txtTitle = (TextView) rowView.findViewById(R.id.book_title);
-        TextView yeartxt = (TextView) rowView.findViewById(R.id.book_year);
-        TextView extratxt = (TextView) rowView.findViewById(R.id.book_description);
+        ImageView book_image = (ImageView) rowView.findViewById(R.id.book_image);
+        TextView book_title = (TextView) rowView.findViewById(R.id.book_title);
+        TextView book_year = (TextView) rowView.findViewById(R.id.book_year);
+        TextView book_description = (TextView) rowView.findViewById(R.id.book_description);
 
-        imageView.setImageResource(books.get(position).getImage());
-        txtTitle.setText(books.get(position).getTitle());
-        yeartxt.setText(books.get(position).getYear());
-        extratxt.setText(books.get(position).getDescription());
+        Book book = books.get(position);
+
+        book_image.setImageBitmap(BitmapFactory.decodeByteArray(book.getImage() , 0, book.getImage().length));
+        book_title.setText(book.getTitle());
+        book_year.setText(book.getYear());
+        book_description.setText(book.getDescription());
+
         return rowView;
-    };
+    }
 
 }

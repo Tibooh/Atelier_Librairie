@@ -6,6 +6,7 @@ columnName=book_id
 generatedId=true
 
 fieldName=image
+dataType=DataType.BYTE_ARRAY
 columnName=book_image
 
 fieldName=title
