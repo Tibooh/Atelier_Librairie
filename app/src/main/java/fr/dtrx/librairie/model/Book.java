@@ -10,8 +10,8 @@ public class Book implements Serializable {
     @DatabaseField(generatedId = true, columnName = "book_id")
     public int bookId;
 
-    @DatabaseField(columnName = "book_image", dataType = DataType.BYTE_ARRAY)
-    private byte[] image;
+    @DatabaseField(columnName = "book_image")
+    private String image;
 
     @DatabaseField(columnName = "book_title")
     private String title;
@@ -36,7 +36,7 @@ public class Book implements Serializable {
     public int getBookId() {
         return bookId;
     }
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
     public String getTitle() {
@@ -57,7 +57,7 @@ public class Book implements Serializable {
 
     // SETTERS
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
     public void setTitle(String title) {

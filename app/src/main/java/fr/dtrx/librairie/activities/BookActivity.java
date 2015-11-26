@@ -32,7 +32,8 @@ public class BookActivity extends FragmentActivity {
 
         Book book = BookCatalog.list.search(id_book);
 
-        book_image.setImageBitmap(BitmapFactory.decodeByteArray(book.getImage(), 0, book.getImage().length));
+
+        book_image.setImageBitmap(BitmapFactory.decodeFile(book.getImage()));
         book_title.setText(book.getTitle());
         book_author.setText(book.getAuthor());
         book_year.setText(book.getYear());

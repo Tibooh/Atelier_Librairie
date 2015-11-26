@@ -1,7 +1,6 @@
 package fr.dtrx.librairie.adapters;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +37,7 @@ public class BookCatalogAdapter extends ArrayAdapter<Book> {
 
         Book book = books.get(position);
 
-        book_image.setImageBitmap(BitmapFactory.decodeByteArray(book.getImage() , 0, book.getImage().length));
+        book_image.setImageBitmap(BitmapFactory.decodeFile(book.getImage()));
         book_title.setText(book.getTitle());
         book_year.setText(book.getYear());
         book_description.setText(book.getDescription());

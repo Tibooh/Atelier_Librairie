@@ -16,6 +16,8 @@
     <string name="hint_book_edition">Edition</string>
     <string name="hint_book_description">Description</string>
     <string name="hint_book_filter_name">Nom du filtre</string>
+    <string name="hint_take_picture">Prendre une photo</string>
+    <string name="hint_galery">Galerie</string>
 
     <string name="title_activity_book_creation">Création de livre</string>
     <string name="title_activity_collection_book">Liste des livres</string>
