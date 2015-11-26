@@ -4,6 +4,8 @@
     <string name="action_delete">Supprimer</string>
 
     <string name="button_book_creation">Créer un livre</string>
+    <string name="button_book_scan_creation">Scanner un livre</string>
+
     <string name="button_book_update">Modifier ce livre</string>
     <string name="button_book_filter_creation">Créer un filtre</string>
     <string name="button_book_filter_update">Modifier le filtre</string>
