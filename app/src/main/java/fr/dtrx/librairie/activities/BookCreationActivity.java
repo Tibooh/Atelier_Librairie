@@ -14,17 +14,16 @@ import android.widget.Toast;
 import fr.dtrx.librairie.R;
 import fr.dtrx.librairie.model.Book;
 import fr.dtrx.librairie.model.DatabaseHelper;
-import fr.dtrx.librairie.scanner.IntentIntegrator;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
+import cz.msebera.android.httpclient.HttpEntity;
+import cz.msebera.android.httpclient.HttpResponse;
+import cz.msebera.android.httpclient.StatusLine;
+import cz.msebera.android.httpclient.client.HttpClient;
+import cz.msebera.android.httpclient.client.methods.HttpGet;
+import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
 
 import fr.dtrx.librairie.scanner.IntentIntegrator;
 import fr.dtrx.librairie.scanner.IntentResult;
@@ -34,17 +33,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
 
-import java.io.BufferedInputStream;
-import java.net.URL;
-import java.net.URLConnection;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.net.Uri;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
 public class BookCreationActivity extends Activity {
 
