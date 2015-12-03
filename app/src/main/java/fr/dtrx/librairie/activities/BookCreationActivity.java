@@ -122,7 +122,6 @@ public class BookCreationActivity extends Activity {
 
     public void btnCreateScanningBook(View view) {
         IntentIntegrator scanIntegrator = new IntentIntegrator(this);
-        //start scanning
         scanIntegrator.initiateScan();
     }
 
@@ -139,7 +138,8 @@ public class BookCreationActivity extends Activity {
             Log.v("SCAN", "content: " + scanContent + " - format: " + scanFormat);
             if (scanContent != null && scanFormat != null && scanFormat.equalsIgnoreCase("EAN_13")) {
                 String bookSearchString = "https://www.googleapis.com/books/v1/volumes?" +
-                        "q=isbn:" + scanContent + "&key=YOUR_KEY";
+                        "q=isbn:" + scanContent + "&key=AIzaSyCL0nL1-XvuxmKgMfU4Xt_G2Jka63XEA6s";
+
                 new GetBookInfo().execute(bookSearchString);
             }
         }else{
@@ -148,6 +148,7 @@ public class BookCreationActivity extends Activity {
             toast.show();
         }
     }
+
 
     private class GetBookInfo extends AsyncTask<String, Void, String> {
         @Override
@@ -173,22 +174,27 @@ public class BookCreationActivity extends Activity {
                     e.printStackTrace();
                 }
             }
+
             return bookBuilder.toString();
         };
 
         protected void onPostExecute(String result) {
             //parse search results
+
             try{
                  //parse results
                 JSONObject resultObject = new JSONObject(result);
                 JSONArray bookArray = resultObject.getJSONArray("items");
                 JSONObject bookObject = bookArray.getJSONObject(0);
                 JSONObject volumeObject = bookObject.getJSONObject("volumeInfo");
+
+                //Récupere le titre
                 try{ edit_text_book_title.setText(volumeObject.getString("title")); }
                 catch(JSONException jse){
-                    edit_text_book_title.setText("");
                     jse.printStackTrace();
                 }
+
+               // Récupere les auteurs
                 StringBuilder authorBuild = new StringBuilder("");
                 try{
                     JSONArray authorArray = volumeObject.getJSONArray("authors");
@@ -199,25 +205,27 @@ public class BookCreationActivity extends Activity {
                     edit_text_book_author.setText(authorBuild.toString());
                 }
                 catch(JSONException jse){
-                    edit_text_book_author.setText("");
                     jse.printStackTrace();
                 }
+
+               // Récupere l'année
                 try{ edit_text_book_year.setText(volumeObject.getString("publishedDate")); }
                 catch(JSONException jse){
-                    edit_text_book_year.setText("");
                     jse.printStackTrace();
                 }
+
+                //Récupere la description
                 try{ edit_text_book_description.setText(volumeObject.getString("description")); }
                 catch(JSONException jse){
-                    edit_text_book_description.setText("");
                     jse.printStackTrace();
                 }
+
             }
             catch (Exception e) {
                 //no result
                 e.printStackTrace();
                 reset();
-                edit_text_book_title.setText("NOT FOUND");
+                edit_text_book_title.setText("NOT FOUND "+result);
             }
         }
     }
