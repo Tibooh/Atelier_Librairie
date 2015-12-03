@@ -15,7 +15,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/image_view_book_image"
-        android:onClick="takePicture" />
+        android:onClick="btnTakePicture" />
 
     <Button android:id="@+id/button_galery"
         android:hint="@string/hint_galery"
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/image_view_book_image"
         android:layout_below="@+id/button_take_picture"
-        android:onClick="openGallery" />
+        android:onClick="btnOpenGallery" />
 
     <EditText android:id="@+id/edit_text_book_title"
         android:hint="@string/hint_book_title"

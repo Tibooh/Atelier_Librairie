@@ -6,11 +6,13 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import fr.dtrx.librairie.R;
 import fr.dtrx.librairie.model.Book;
 import fr.dtrx.librairie.model.BookCatalog;
+import fr.dtrx.librairie.functions.ImageFunctions;
 
 public class BookFragment extends Fragment {
 
@@ -23,6 +25,7 @@ public class BookFragment extends Fragment {
     public void update(int position_book) {
         View view = getView();
 
+        ImageView image_view_book_image = (ImageView) view.findViewById(R.id.book_image);
         TextView text_view_title = (TextView) view.findViewById(R.id.book_title);
         TextView text_view_author = (TextView) view.findViewById(R.id.book_author);
         TextView text_view_year = (TextView) view.findViewById(R.id.book_year);
@@ -31,6 +34,7 @@ public class BookFragment extends Fragment {
 
         Book book = BookCatalog.list.get(position_book);
 
+        ImageFunctions.setIVBitmap(image_view_book_image, book.getImage());
         text_view_title.setText(book.getTitle());
         text_view_author.setText(book.getAuthor());
         text_view_year.setText(book.getYear());
