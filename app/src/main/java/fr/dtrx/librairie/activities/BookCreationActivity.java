@@ -5,14 +5,12 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -41,10 +39,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
 
-import fr.dtrx.librairie.R;
 import fr.dtrx.librairie.functions.FileFunctions;
-import fr.dtrx.librairie.model.Book;
-import fr.dtrx.librairie.model.DatabaseHelper;
 import fr.dtrx.librairie.functions.ImageFunctions;
 
 import org.json.JSONArray;

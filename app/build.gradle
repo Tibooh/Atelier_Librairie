@@ -24,4 +24,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.1.1'
     compile files('libs/ormlite-android-4.48.jar')
     compile files('libs/ormlite-core-4.48.jar')
+    compile "cz.msebera.android:httpclient:4.4.1.1"
 }
