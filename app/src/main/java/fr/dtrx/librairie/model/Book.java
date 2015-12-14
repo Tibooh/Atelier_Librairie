@@ -28,6 +28,14 @@ public class Book implements Serializable {
     @DatabaseField(columnName = "book_description")
     private String description;
 
+    @DatabaseField(columnName = "book_collection")
+    private String collection;
+
+    @DatabaseField(columnName = "book_isbn")
+    private String isbn;
+
+
+
 
     public Book() {}
 
@@ -54,7 +62,12 @@ public class Book implements Serializable {
     public String getDescription() {
         return description;
     }
-
+    public String getCollection() {
+        return collection;
+    }
+    public String getIsbn() {
+        return isbn;
+    }
     // SETTERS
 
     public void setImage(String image) {
@@ -75,10 +88,18 @@ public class Book implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+    public void setCollection(String collection) {
+        this.collection = collection;
+    }
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
 
     @Override
     public String toString() {
         return title + "\n" + author;
     }
+
+
 
 }

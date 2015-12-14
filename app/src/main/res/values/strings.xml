@@ -3,20 +3,24 @@
     <string name="action_settings">Paramètres</string>
     <string name="action_delete">Supprimer</string>
 
-    <string name="button_book_creation">Créer un livre</string>
-    <string name="button_book_scan_creation">Scanner un livre</string>
-
-    <string name="button_book_update">Modifier ce livre</string>
+    <string name="button_book_ajout_livre">Ajouter un livre</string>
     <string name="button_book_filter_creation">Créer un filtre</string>
+    <string name="button_collection_book">Votre collection</string>
+    <string name="button_collection_book_filter">Vos filtres</string>
+
+    <string name="button_book_creation">Ajouter à la collection</string>
+    <string name="button_book_scan_creation">Scanner un livre</string>
+    <string name="button_book_update">Modifier ce livre</string>
     <string name="button_book_filter_update">Modifier le filtre</string>
-    <string name="button_collection_book">Voir la collection</string>
-    <string name="button_collection_book_filter">Voir les filtres</string>
+
     <string name="hint_book_image">Image</string>
     <string name="hint_book_title">Titre</string>
     <string name="hint_book_author">Auteur</string>
     <string name="hint_book_year">Année</string>
     <string name="hint_book_edition">Edition</string>
     <string name="hint_book_description">Description</string>
+    <string name="hint_book_collection">Collection</string>
+    <string name="hint_book_isbn">ISBN</string>
     <string name="hint_book_filter_name">Nom du filtre</string>
     <string name="hint_take_picture">Prendre une photo</string>
     <string name="hint_galery">Galerie</string>

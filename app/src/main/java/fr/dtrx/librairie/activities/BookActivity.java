@@ -28,6 +28,8 @@ public class BookActivity extends FragmentActivity {
         TextView book_author = (TextView) findViewById(R.id.book_author);
         TextView book_year = (TextView) findViewById(R.id.book_year);
         TextView book_edition = (TextView) findViewById(R.id.book_edition);
+        TextView book_collection = (TextView) findViewById(R.id.book_collection);
+        TextView book_isbn = (TextView) findViewById(R.id.book_isbn);
         TextView book_description = (TextView) findViewById(R.id.book_description);
 
         Book book = BookCatalog.list.search(id_book);
@@ -38,6 +40,8 @@ public class BookActivity extends FragmentActivity {
         book_author.setText(book.getAuthor());
         book_year.setText(book.getYear());
         book_edition.setText(book.getEdition());
+        book_collection.setText(book.getCollection());
+        book_isbn.setText(book.getIsbn());
         book_description.setText(book.getDescription());
     }
 

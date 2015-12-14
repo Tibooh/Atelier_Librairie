@@ -23,6 +23,12 @@ columnName=book_edition
 
 fieldName=description
 columnName=book_description
+
+fieldName=collection
+columnName=book_collection
+
+fieldName=isbn
+columnName=book_isbn
 #################################
 
 dataClass=fr.dtrx.librairie.model.BookFilter

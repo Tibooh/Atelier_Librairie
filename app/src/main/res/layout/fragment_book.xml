@@ -59,7 +59,7 @@
             <TextView android:id="@+id/text_edition"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Edition:"
+                android:text="Edition :"
                 android:textSize="20sp"
                 android:textStyle="bold"/>
             <TextView android:id="@+id/book_edition"
@@ -72,11 +72,57 @@
                 android:layout_marginStart="7sp"/>
         </LinearLayout>
 
+        <LinearLayout android:id="@+id/layout_collection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_edition"
+            android:layout_marginTop="15sp">
+            <TextView android:id="@+id/text_collection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Collection :"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+
+            <TextView android:id="@+id/book_collection"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Collection"
+                android:layout_alignBottom="@+id/text_collection"
+                android:layout_toEndOf="@id/text_collection"
+                android:textSize="20sp"
+                android:layout_marginStart="7sp"/>
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/layout_isbn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_collection"
+            android:layout_marginTop="15sp">
+            <TextView android:id="@+id/text_isbn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ISBN :"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+
+            <TextView android:id="@+id/book_isbn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Isbn"
+                android:layout_alignBottom="@+id/text_isbn"
+                android:layout_toEndOf="@id/text_isbn"
+                android:textSize="20sp"
+                android:layout_marginStart="7sp"/>
+        </LinearLayout>
+
+
         <TextView android:id="@+id/text_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15sp"
             android:text="Description:"
-            android:layout_below="@id/layout_edition"
+            android:layout_below="@id/layout_isbn"
             android:textSize="20sp"
             android:textStyle="bold"/>
 
@@ -86,6 +132,9 @@
             android:text="Description"
             android:textSize="18sp"
             android:layout_below="@+id/text_description"/>
+
+
+
 
     </RelativeLayout>
 </ScrollView>

@@ -60,6 +60,8 @@ public class BookCreationActivity extends Activity {
     EditText edit_text_book_author;
     EditText edit_text_book_year;
     EditText edit_text_book_edition;
+    EditText edit_text_book_collection;
+    EditText edit_text_book_isbn;
     EditText edit_text_book_description;
 
     @Override
@@ -72,6 +74,8 @@ public class BookCreationActivity extends Activity {
         edit_text_book_author = (EditText) findViewById(R.id.edit_text_book_author);
         edit_text_book_year = (EditText) findViewById(R.id.edit_text_book_year);
         edit_text_book_edition = (EditText) findViewById(R.id.edit_text_book_edition);
+        edit_text_book_collection = (EditText) findViewById(R.id.edit_text_book_collection);
+        edit_text_book_isbn = (EditText) findViewById(R.id.edit_text_book_isbn);
         edit_text_book_description = (EditText) findViewById(R.id.edit_text_book_description);
 
         if (FileFunctions.storageDir == null) FileFunctions.storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
@@ -134,6 +138,8 @@ public class BookCreationActivity extends Activity {
         String book_author = edit_text_book_author.getText().toString();
         String book_year = edit_text_book_year.getText().toString();
         String book_edition = edit_text_book_edition.getText().toString();
+        String book_collection = edit_text_book_collection.getText().toString();
+        String book_isbn = edit_text_book_isbn.getText().toString();
         String book_description = edit_text_book_description.getText().toString();
 
         if (book_title.length() > 0) {
@@ -148,6 +154,8 @@ public class BookCreationActivity extends Activity {
                 book.setAuthor(book_author);
                 book.setYear(book_year);
                 book.setEdition(book_edition);
+                book.setCollection(book_collection);
+                book.setIsbn(book_isbn);
                 book.setDescription(book_description);
 
                 try {
@@ -297,6 +305,12 @@ public class BookCreationActivity extends Activity {
                     jse.printStackTrace();
                 }
 
+                //Récupere l'édition
+                try{ edit_text_book_edition.setText(volumeObject.getString("publisher")); }
+                catch(JSONException jse){
+                    jse.printStackTrace();
+                }
+
             }
             catch (Exception e) {
                 //no result
@@ -324,6 +338,8 @@ public class BookCreationActivity extends Activity {
         edit_text_book_author.setText("");
         edit_text_book_year.setText("");
         edit_text_book_edition.setText("");
+        edit_text_book_collection.setText("");
+        edit_text_book_isbn.setText("");
         edit_text_book_description.setText("");
     }
 
