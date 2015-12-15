@@ -6,6 +6,7 @@ import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import fr.dtrx.librairie.R;
@@ -25,7 +26,9 @@ public class BookActivity extends FragmentActivity {
         int id_book = intent.getIntExtra(BookCatalogActivity.ID_BOOK, -1);
         if (id_book == -1) return;
 
+        RatingBar book_rate = (RatingBar) findViewById(R.id.book_rate);
         ImageView book_image = (ImageView) findViewById(R.id.book_image);
+        TextView book_genre = (TextView) findViewById(R.id.book_genre);
         TextView book_title = (TextView) findViewById(R.id.book_title);
         TextView book_author = (TextView) findViewById(R.id.book_author);
         TextView book_year = (TextView) findViewById(R.id.book_year);
@@ -36,6 +39,8 @@ public class BookActivity extends FragmentActivity {
 
         Book book = BookCatalog.list.search(id_book);
 
+        book_genre.setText(book.getGenre());
+        book_rate.setRating(book.getRate());
         book_image.setImageBitmap(BitmapFactory.decodeFile(book.getImage()));
         book_title.setText(book.getTitle());
         book_author.setText(book.getAuthor());

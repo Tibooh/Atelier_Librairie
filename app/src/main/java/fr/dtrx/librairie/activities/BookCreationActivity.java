@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -57,7 +58,9 @@ public class BookCreationActivity extends Activity {
     private DatabaseHelper databaseHelper = null;
     private File tmp_image;
 
+    RatingBar rating_bar_star;
     ImageView image_view_book_image;
+    Spinner genreSpinner;
     EditText edit_text_book_title;
     EditText edit_text_book_author;
     EditText edit_text_book_year;
@@ -65,18 +68,18 @@ public class BookCreationActivity extends Activity {
     EditText edit_text_book_collection;
     EditText edit_text_book_isbn;
     EditText edit_text_book_description;
-    Spinner genreSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_creation);
 
+        rating_bar_star = (RatingBar) findViewById(R.id.book_rate);
         image_view_book_image = (ImageView) findViewById(R.id.image_view_book_image);
+        genreSpinner = (Spinner) findViewById(R.id.spinner);
         edit_text_book_title = (EditText) findViewById(R.id.edit_text_book_title);
         edit_text_book_author = (EditText) findViewById(R.id.edit_text_book_author);
         edit_text_book_year = (EditText) findViewById(R.id.edit_text_book_year);
-        Spinner genreSpinner = (Spinner) findViewById(R.id.spinner);
         edit_text_book_edition = (EditText) findViewById(R.id.edit_text_book_edition);
         edit_text_book_collection = (EditText) findViewById(R.id.edit_text_book_collection);
         edit_text_book_isbn = (EditText) findViewById(R.id.edit_text_book_isbn);
@@ -84,19 +87,8 @@ public class BookCreationActivity extends Activity {
 
         if (FileFunctions.storageDir == null) FileFunctions.storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 
-        // Spinner Drop down elements
-        List<String> categories = new ArrayList<String>();
-        categories.add("Non défini");
-        categories.add("Policier");
-        categories.add("Romance");
-        categories.add("Thriller");
-        categories.add("Education");
-        categories.add("Horreur");
-        categories.add("Aventure");
-        categories.add("Autre");
-
         // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, categories);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, Book.getGenres());
 
         // attaching data adapter to spinner
         genreSpinner.setAdapter(dataAdapter);
@@ -150,7 +142,9 @@ public class BookCreationActivity extends Activity {
     }
 
     public void btnCreateBook(View view) {
-        String book_image = tmp_image.getAbsolutePath();
+        float book_rate = rating_bar_star.getRating();
+        String book_image = tmp_image != null ? tmp_image.getAbsolutePath() : "";
+        String book_genre = genreSpinner.getSelectedItem().toString();
         String book_title = edit_text_book_title.getText().toString();
         String book_author = edit_text_book_author.getText().toString();
         String book_year = edit_text_book_year.getText().toString();
@@ -158,7 +152,6 @@ public class BookCreationActivity extends Activity {
         String book_collection = edit_text_book_collection.getText().toString();
         String book_isbn = edit_text_book_isbn.getText().toString();
         String book_description = edit_text_book_description.getText().toString();
-        String book_genre = "";//genreSpinner.getSelectedItem().toString();
 
         if (book_title.length() > 0) {
             if (book_author.length() > 0) {
@@ -167,7 +160,9 @@ public class BookCreationActivity extends Activity {
                 final Book book = new Book();
 
                 // Then, set all the values from user input
+                book.setRate(book_rate);
                 book.setImage(book_image);
+                book.setGenre(book_genre);
                 book.setTitle(book_title);
                 book.setAuthor(book_author);
                 book.setYear(book_year);
@@ -175,7 +170,6 @@ public class BookCreationActivity extends Activity {
                 book.setCollection(book_collection);
                 book.setIsbn(book_isbn);
                 book.setDescription(book_description);
-                book.setGenre(book_genre);
 
                 try {
                     // This is how, a reference of DAO object can be done
@@ -325,6 +319,11 @@ public class BookCreationActivity extends Activity {
                     jse.printStackTrace();
                 }
 
+                //Récupere la note
+                try{ rating_bar_star.setRating(Float.parseFloat(volumeObject.getString("ratingsCount"))); }
+                catch(JSONException jse){
+                    jse.printStackTrace();
+                }
             }
             catch (Exception e) {
                 //no result
@@ -356,6 +355,7 @@ public class BookCreationActivity extends Activity {
         edit_text_book_isbn.setText("");
         edit_text_book_description.setText("");
         genreSpinner.setSelection(0);
+        rating_bar_star.setRating(0);
     }
 
 }

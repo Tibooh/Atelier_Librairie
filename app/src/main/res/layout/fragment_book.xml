@@ -11,13 +11,19 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingBottom="@dimen/activity_vertical_margin">
 
+        <ProgressBar android:id="@+id/book_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="25sp"
+            android:layout_alignParentTop="true"/>
+
         <TextView android:id="@+id/book_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Title"
             android:textSize="26sp"
             android:textStyle="bold"
-            android:layout_alignParentTop="true"
+            android:layout_below="@+id/book_progress"
             android:layout_centerHorizontal="true" />
 
         <LinearLayout android:id="@+id/layout_author_year"
@@ -47,10 +53,18 @@
                 android:textSize="18sp"/>
         </LinearLayout>
 
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/book_rate"
+            android:layout_below="@id/layout_author_year"
+            android:layout_centerHorizontal="true"
+            android:isIndicator="true"/>
+
         <LinearLayout android:id="@+id/layout_edition"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/layout_author_year"
+            android:layout_below="@+id/book_rate"
             android:layout_marginTop="15sp">
             <TextView android:id="@+id/text_edition"
                 android:layout_width="wrap_content"
@@ -68,11 +82,32 @@
                 android:layout_marginStart="7sp"/>
         </LinearLayout>
 
-        <LinearLayout android:id="@+id/layout_collection"
+        <LinearLayout android:id="@+id/layout_genre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/layout_edition"
-            android:layout_marginTop="15sp">
+            android:layout_marginTop="5sp">
+            <TextView android:id="@+id/text_genre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Genre:"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+            <TextView android:id="@+id/book_genre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Genre"
+                android:layout_alignBottom="@+id/text_genre"
+                android:layout_toEndOf="@id/text_genre"
+                android:textSize="20sp"
+                android:layout_marginStart="7sp"/>
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/layout_collection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_genre"
+            android:layout_marginTop="5sp">
             <TextView android:id="@+id/text_collection"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -94,7 +129,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/layout_collection"
-            android:layout_marginTop="15sp">
+            android:layout_marginTop="5sp">
             <TextView android:id="@+id/text_isbn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -116,7 +151,7 @@
         <TextView android:id="@+id/text_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15sp"
+            android:layout_marginTop="5sp"
             android:text="Description:"
             android:layout_below="@id/layout_isbn"
             android:textSize="20sp"

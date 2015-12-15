@@ -32,6 +32,9 @@ columnName=book_isbn
 
 fieldName=genre
 columnName=book_genre
+
+fieldName=rate
+columnName=book_rate
 #################################
 
 dataClass=fr.dtrx.librairie.model.BookFilter
