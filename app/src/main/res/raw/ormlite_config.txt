@@ -29,6 +29,9 @@ columnName=book_collection
 
 fieldName=isbn
 columnName=book_isbn
+
+fieldName=genre
+columnName=book_genre
 #################################
 
 dataClass=fr.dtrx.librairie.model.BookFilter

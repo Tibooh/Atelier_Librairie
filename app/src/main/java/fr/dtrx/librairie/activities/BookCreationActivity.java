@@ -11,8 +11,11 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import fr.dtrx.librairie.R;
@@ -38,6 +41,8 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.dtrx.librairie.functions.FileFunctions;
 import fr.dtrx.librairie.functions.ImageFunctions;
@@ -63,6 +68,7 @@ public class BookCreationActivity extends Activity {
     EditText edit_text_book_collection;
     EditText edit_text_book_isbn;
     EditText edit_text_book_description;
+    Spinner genreSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,12 +79,30 @@ public class BookCreationActivity extends Activity {
         edit_text_book_title = (EditText) findViewById(R.id.edit_text_book_title);
         edit_text_book_author = (EditText) findViewById(R.id.edit_text_book_author);
         edit_text_book_year = (EditText) findViewById(R.id.edit_text_book_year);
+        Spinner genreSpinner = (Spinner) findViewById(R.id.spinner);
         edit_text_book_edition = (EditText) findViewById(R.id.edit_text_book_edition);
         edit_text_book_collection = (EditText) findViewById(R.id.edit_text_book_collection);
         edit_text_book_isbn = (EditText) findViewById(R.id.edit_text_book_isbn);
         edit_text_book_description = (EditText) findViewById(R.id.edit_text_book_description);
 
         if (FileFunctions.storageDir == null) FileFunctions.storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+
+        // Spinner Drop down elements
+        List<String> categories = new ArrayList<String>();
+        categories.add("Non défini");
+        categories.add("Policier");
+        categories.add("Romance");
+        categories.add("Thriller");
+        categories.add("Education");
+        categories.add("Horreur");
+        categories.add("Aventure");
+        categories.add("Autre");
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, categories);
+
+        // attaching data adapter to spinner
+        genreSpinner.setAdapter(dataAdapter);
     }
     
 
@@ -141,6 +165,7 @@ public class BookCreationActivity extends Activity {
         String book_collection = edit_text_book_collection.getText().toString();
         String book_isbn = edit_text_book_isbn.getText().toString();
         String book_description = edit_text_book_description.getText().toString();
+        String book_genre = "";//genreSpinner.getSelectedItem().toString();
 
         if (book_title.length() > 0) {
             if (book_author.length() > 0) {
@@ -157,6 +182,7 @@ public class BookCreationActivity extends Activity {
                 book.setCollection(book_collection);
                 book.setIsbn(book_isbn);
                 book.setDescription(book_description);
+                book.setGenre(book_genre);
 
                 try {
                     // This is how, a reference of DAO object can be done
@@ -224,6 +250,7 @@ public class BookCreationActivity extends Activity {
             if (scanContent != null && scanFormat != null && scanFormat.equalsIgnoreCase("EAN_13")) {
                 String bookSearchString = "https://www.googleapis.com/books/v1/volumes?" +
                         "q=isbn:" + scanContent + "&key=AIzaSyCL0nL1-XvuxmKgMfU4Xt_G2Jka63XEA6s";
+                edit_text_book_isbn.setText(scanContent);
 
                 new GetBookInfo().execute(bookSearchString);
             }
@@ -316,7 +343,7 @@ public class BookCreationActivity extends Activity {
                 //no result
                 e.printStackTrace();
                 reset();
-                edit_text_book_title.setText("NOT FOUND "+result);
+                edit_text_book_title.setText("NOT FOUND ");
             }
         }
     }
@@ -341,6 +368,7 @@ public class BookCreationActivity extends Activity {
         edit_text_book_collection.setText("");
         edit_text_book_isbn.setText("");
         edit_text_book_description.setText("");
+      //  genreSpinner.setSelection(0);
     }
 
 }

@@ -34,13 +34,13 @@ public class Book implements Serializable {
     @DatabaseField(columnName = "book_isbn")
     private String isbn;
 
-
+    @DatabaseField(columnName = "book_genre")
+    private String genre;
 
 
     public Book() {}
 
     // GETTERS
-
     public int getBookId() {
         return bookId;
     }
@@ -68,8 +68,12 @@ public class Book implements Serializable {
     public String getIsbn() {
         return isbn;
     }
-    // SETTERS
+    public String getGenre() {
+        return genre;
+    }
 
+
+    // SETTERS
     public void setImage(String image) {
         this.image = image;
     }
@@ -94,12 +98,14 @@ public class Book implements Serializable {
     public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
 
     @Override
     public String toString() {
         return title + "\n" + author;
     }
-
 
 
 }
