@@ -2,12 +2,14 @@ package fr.dtrx.librairie.activities;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import fr.dtrx.librairie.R;
+import fr.dtrx.librairie.functions.ImageFunctions;
 import fr.dtrx.librairie.model.Book;
 import fr.dtrx.librairie.model.BookCatalog;
 
@@ -33,7 +35,6 @@ public class BookActivity extends FragmentActivity {
         TextView book_description = (TextView) findViewById(R.id.book_description);
 
         Book book = BookCatalog.list.search(id_book);
-
 
         book_image.setImageBitmap(BitmapFactory.decodeFile(book.getImage()));
         book_title.setText(book.getTitle());
