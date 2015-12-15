@@ -4,43 +4,79 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
-import android.widget.ImageView;
 
 import java.io.IOException;
 
 public class ImageFunctions {
 
-    public static Bitmap rotateBitmap(Bitmap bitmap, String path) {
-        ExifInterface ei = null;
+    public final static int IMAGE_QUALITY = 192;
+
+    public static Bitmap correctBitmap(String imagePath) {
+        return rotateBitmap(rescaledBitmap(imagePath), imagePath);
+    }
+
+    public static Bitmap rotateBitmap(Bitmap bitmap, String imagePath) {
+        Matrix matrix = new Matrix();
+        if (bitmap == null) bitmap = BitmapFactory.decodeFile(imagePath);
+
+        ExifInterface exif = null;
         try {
-            ei = new ExifInterface(path);
-        } catch (IOException e) {}
+            exif = new ExifInterface(imagePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
 
-        int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+        switch (orientation) {
+            case ExifInterface.ORIENTATION_NORMAL:
+                return bitmap;
+            case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+                matrix.setScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                matrix.setRotate(180);
+                break;
+            case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+                matrix.setRotate(180);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_TRANSPOSE:
+                matrix.setRotate(90);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                matrix.setRotate(90);
+                break;
+            case ExifInterface.ORIENTATION_TRANSVERSE:
+                matrix.setRotate(-90);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                matrix.setRotate(-90);
+                break;
+            default:
+                return bitmap;
+        }
 
-        switch(orientation) {
-            case ExifInterface.ORIENTATION_ROTATE_90:   return rotateImage(bitmap, 0);
-            case ExifInterface.ORIENTATION_ROTATE_180:  return rotateImage(bitmap, 90);
-            case ExifInterface.ORIENTATION_ROTATE_270:  return rotateImage(bitmap, 180);
-            default:                                    return rotateImage(bitmap, 270);
+        try {
+            Bitmap bmRotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            bitmap.recycle();
+            return bmRotated;
+        }
+        catch (OutOfMemoryError e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
-    public static Bitmap rotateImage(Bitmap bitmap, int rotation) {
-        Matrix matrix = new Matrix();
-        matrix.postRotate(rotation);
-
-        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-    }
-
-    public static Bitmap rescaledBitmap(String string_book_image) {
-        int targetW = 72;
-        int targetH = 72;
+    public static Bitmap rescaledBitmap(String imagePath) {
+        int targetW = IMAGE_QUALITY;
+        int targetH = IMAGE_QUALITY;
 
         // Get the dimensions of the bitmap
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
         bmOptions.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(string_book_image, bmOptions);
+        BitmapFactory.decodeFile(imagePath, bmOptions);
         int photoW = bmOptions.outWidth;
         int photoH = bmOptions.outHeight;
 
@@ -52,13 +88,7 @@ public class ImageFunctions {
         bmOptions.inSampleSize = scaleFactor;
         bmOptions.inPurgeable = true;
 
-        return BitmapFactory.decodeFile(string_book_image, bmOptions);
-    }
-
-    public static void setIVBitmap(ImageView image_view_book_image, String string_book_image) {
-        Bitmap bitmap = BitmapFactory.decodeFile(string_book_image);
-        image_view_book_image.setRotation(90);
-        image_view_book_image.setImageBitmap(bitmap);
+        return BitmapFactory.decodeFile(imagePath, bmOptions);
     }
 
 }

@@ -1,6 +1,7 @@
 package fr.dtrx.librairie.fragments;
 
 import android.app.Fragment;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -25,21 +26,21 @@ public class BookFragment extends Fragment {
     public void update(int position_book) {
         View view = getView();
 
-        ImageView image_view_book_image = (ImageView) view.findViewById(R.id.book_image);
-        TextView text_view_title = (TextView) view.findViewById(R.id.book_title);
-        TextView text_view_author = (TextView) view.findViewById(R.id.book_author);
-        TextView text_view_year = (TextView) view.findViewById(R.id.book_year);
-        TextView text_view_edition = (TextView) view.findViewById(R.id.book_edition);
-        TextView text_view_description = (TextView) view.findViewById(R.id.book_description);
+        ImageView book_image = (ImageView) view.findViewById(R.id.book_image);
+        TextView book_title = (TextView) view.findViewById(R.id.book_title);
+        TextView book_author = (TextView) view.findViewById(R.id.book_author);
+        TextView book_year = (TextView) view.findViewById(R.id.book_year);
+        TextView book_edition = (TextView) view.findViewById(R.id.book_edition);
+        TextView book_description = (TextView) view.findViewById(R.id.book_description);
 
         Book book = BookCatalog.list.get(position_book);
 
-        ImageFunctions.setIVBitmap(image_view_book_image, book.getImage());
-        text_view_title.setText(book.getTitle());
-        text_view_author.setText(book.getAuthor());
-        text_view_year.setText(book.getYear());
-        text_view_edition.setText(book.getEdition());
-        text_view_description.setText(book.getDescription());
+        book_image.setImageBitmap(BitmapFactory.decodeFile(book.getImage()));
+        book_title.setText(book.getTitle());
+        book_author.setText(book.getAuthor());
+        book_year.setText(book.getYear());
+        book_edition.setText(book.getEdition());
+        book_description.setText(book.getDescription());
     }
 
 }

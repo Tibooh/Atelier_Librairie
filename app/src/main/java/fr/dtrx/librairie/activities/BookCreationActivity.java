@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
+import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,42 +18,38 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import fr.dtrx.librairie.R;
-import fr.dtrx.librairie.model.Book;
-import fr.dtrx.librairie.model.DatabaseHelper;
-
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.sql.SQLException;
+
 import cz.msebera.android.httpclient.HttpEntity;
 import cz.msebera.android.httpclient.HttpResponse;
 import cz.msebera.android.httpclient.StatusLine;
 import cz.msebera.android.httpclient.client.HttpClient;
 import cz.msebera.android.httpclient.client.methods.HttpGet;
 import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
-
-import fr.dtrx.librairie.scanner.IntentIntegrator;
-import fr.dtrx.librairie.scanner.IntentResult;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.sql.SQLException;
-
+import fr.dtrx.librairie.R;
 import fr.dtrx.librairie.functions.FileFunctions;
 import fr.dtrx.librairie.functions.ImageFunctions;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import fr.dtrx.librairie.model.Book;
+import fr.dtrx.librairie.model.DatabaseHelper;
+import fr.dtrx.librairie.scanner.IntentIntegrator;
+import fr.dtrx.librairie.scanner.IntentResult;
 
 public class BookCreationActivity extends Activity {
 
     public static final int REQUEST_TAKE_PHOTO = 1;
-    public static final int RESULT_LOAD_IMAGE = 1;
+    public static final int RESULT_LOAD_IMAGE = 2;
 
     private DatabaseHelper databaseHelper = null;
     private File tmp_image;
@@ -76,17 +75,15 @@ public class BookCreationActivity extends Activity {
 
         if (FileFunctions.storageDir == null) FileFunctions.storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
     }
-    
+
 
     private void saveAndSetImageView(String imagePath) {
         saveImage(imagePath);
-        ImageFunctions.setIVBitmap(image_view_book_image, tmp_image.getAbsolutePath());
+        image_view_book_image.setImageBitmap(BitmapFactory.decodeFile(tmp_image.getAbsolutePath()));
     }
 
     private void saveImage(String imagePath) {
-        Bitmap bitmap;
-        bitmap = ImageFunctions.rescaledBitmap(imagePath);
-        bitmap = ImageFunctions.rotateBitmap(bitmap, imagePath);
+        Bitmap bitmap = ImageFunctions.correctBitmap(imagePath);
 
         tmp_image.delete();
         tmp_image = FileFunctions.saveImage(bitmap);
@@ -117,8 +114,6 @@ public class BookCreationActivity extends Activity {
         if (galleryIntent.resolveActivity(getPackageManager()) != null) {
             // Create the File where the photo should go
             File photoFile = FileFunctions.createImageFile();
-
-            //TODO Ouvrir une image dans la gallerie n'ouvre pas l'image ... a corriger
 
             // Continue only if the File was successfully created
             if (photoFile != null) {
@@ -184,14 +179,15 @@ public class BookCreationActivity extends Activity {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == REQUEST_TAKE_PHOTO /*&& resultCode == RESULT_OK*/)
+        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK)
             saveAndSetImageView(tmp_image.getAbsolutePath());
 
-        if (requestCode == RESULT_LOAD_IMAGE /*&& resultCode == RESULT_OK*/ && intent != null) {
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && intent != null) {
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
             Cursor cursor = getContentResolver().query(intent.getData(), filePathColumn, null, null, null);
 
-            if (cursor == null || cursor.getCount() < 1) return; // no cursor or no record. DO YOUR ERROR HANDLING
+            if (cursor == null || cursor.getCount() < 1)
+                return; // no cursor or no record. DO YOUR ERROR HANDLING
             cursor.moveToFirst();
 
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
@@ -201,11 +197,9 @@ public class BookCreationActivity extends Activity {
 
             cursor.close();
         }
-       
-       
-        //retrieve result of scanning - instantiate ZXing object
-        IntentResult scanningResult
-                = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+
+        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+
         //check we have a valid result
         if (scanningResult != null) {
             //get content from Intent Result
@@ -219,10 +213,6 @@ public class BookCreationActivity extends Activity {
 
                 new GetBookInfo().execute(bookSearchString);
             }
-        }else{
-            Toast toast = Toast.makeText(getApplicationContext(),
-                    "No scan data received!", Toast.LENGTH_SHORT);
-            toast.show();
         }
     }
 
@@ -259,7 +249,7 @@ public class BookCreationActivity extends Activity {
             //parse search results
 
             try{
-                 //parse results
+                //parse results
                 JSONObject resultObject = new JSONObject(result);
                 JSONArray bookArray = resultObject.getJSONArray("items");
                 JSONObject bookObject = bookArray.getJSONObject(0);
@@ -271,7 +261,7 @@ public class BookCreationActivity extends Activity {
                     jse.printStackTrace();
                 }
 
-               // Récupere les auteurs
+                // Récupere les auteurs
                 StringBuilder authorBuild = new StringBuilder("");
                 try{
                     JSONArray authorArray = volumeObject.getJSONArray("authors");
@@ -285,7 +275,7 @@ public class BookCreationActivity extends Activity {
                     jse.printStackTrace();
                 }
 
-               // Récupere l'année
+                // Récupere l'année
                 try{ edit_text_book_year.setText(volumeObject.getString("publishedDate")); }
                 catch(JSONException jse){
                     jse.printStackTrace();
