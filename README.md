@@ -15,3 +15,10 @@ Rendu 2 : OK
 
 - Fragments 
 - BDD : Ok pour les books
+
+
+Rendu 3 : OK
+
+- BDD complète
+- Scanner
+- Illustrations avec prise de photo
