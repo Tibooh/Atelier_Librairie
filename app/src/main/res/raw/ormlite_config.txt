@@ -35,6 +35,12 @@ columnName=book_genre
 
 fieldName=rate
 columnName=book_rate
+
+fieldName=pages
+columnName=book_pages
+
+fieldName=progress
+columnName=book_progress
 #################################
 
 dataClass=fr.dtrx.librairie.model.BookFilter

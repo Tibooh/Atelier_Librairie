@@ -42,6 +42,12 @@ public class Book implements Serializable {
     @DatabaseField(columnName = "book_rate")
     private float rate;
 
+    @DatabaseField(columnName = "book_pages")
+    private int pages;
+
+    @DatabaseField(columnName = "book_progress")
+    private int progress;
+
     public Book() {}
 
     // GETTERS
@@ -78,7 +84,38 @@ public class Book implements Serializable {
     public float getRate() {
         return rate;
     }
+    public int getPages() {
+        return pages;
+    }
+    public int getProgress() {
+        return progress;
+    }
 
+    public int getProgressPercentage() {
+        if (pages <= 0) return 0;
+        return progress * 100 / pages;
+    }
+
+    public static List<String> getGenres() {
+        List<String> categories = new ArrayList<>();
+        categories.add("Non défini");
+        categories.add("Policier");
+        categories.add("Romance");
+        categories.add("Thriller");
+        categories.add("Education");
+        categories.add("Horreur");
+        categories.add("Aventure");
+        categories.add("Autre");
+        return categories;
+    }
+
+    public int getGenrePosition() {
+        for (int i = 0; i < getGenres().size(); i++)
+            if (getGenres().get(i).equalsIgnoreCase(getGenre()))
+                return i;
+
+        return 0;
+    }
 
     // SETTERS
     public void setImage(String image) {
@@ -111,30 +148,16 @@ public class Book implements Serializable {
     public void setRate(float rate) {
         this.rate = rate;
     }
+    public void setPages(int pages) {
+        this.pages = pages;
+    }
+    public void setProgress(int progress) {
+        this.progress = progress > pages ? pages : progress;
+    }
 
     @Override
     public String toString() {
         return title + "\n" + author;
-    }
-
-    public static List<String> getGenres() {
-        List<String> categories = new ArrayList<>();
-        categories.add("Non défini");
-        categories.add("Policier");
-        categories.add("Romance");
-        categories.add("Thriller");
-        categories.add("Education");
-        categories.add("Horreur");
-        categories.add("Aventure");
-        categories.add("Autre");
-        return categories;
-    }
-
-    public int getGenrePosition() {
-        for (int i = 0; i < getGenres().size(); i++)
-            if (getGenres().get(i) == getGenre()) return i;
-
-        return 0;
     }
 
 }

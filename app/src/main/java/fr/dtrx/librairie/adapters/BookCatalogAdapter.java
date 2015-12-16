@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.List;
@@ -37,11 +38,17 @@ public class BookCatalogAdapter extends ArrayAdapter<Book> {
         TextView book_title = (TextView) rowView.findViewById(R.id.book_title);
         TextView book_year = (TextView) rowView.findViewById(R.id.book_year);
         TextView book_description = (TextView) rowView.findViewById(R.id.book_description);
+        ProgressBar book_progress = (ProgressBar) rowView.findViewById(R.id.book_progress);
+        TextView book_pages = (TextView) rowView.findViewById(R.id.book_pages);
+        TextView book_progress_percentage = (TextView) rowView.findViewById(R.id.book_progress_percentage);
 
         book_image.setImageBitmap(BitmapFactory.decodeFile(book.getImage()));
         book_title.setText(book.getTitle());
         book_year.setText(book.getYear());
         book_description.setText(book.getDescription());
+        book_progress.setMax(book.getPages()); book_progress.setProgress(book.getProgress());
+        book_pages.setText("" + book.getPages());
+        book_progress_percentage.setText("" + book.getProgressPercentage());
 
         return rowView;
     }

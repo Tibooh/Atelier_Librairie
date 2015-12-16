@@ -6,6 +6,7 @@ import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -36,6 +37,9 @@ public class BookActivity extends FragmentActivity {
         TextView book_collection = (TextView) findViewById(R.id.book_collection);
         TextView book_isbn = (TextView) findViewById(R.id.book_isbn);
         TextView book_description = (TextView) findViewById(R.id.book_description);
+        ProgressBar book_progress= (ProgressBar) findViewById(R.id.book_progress);
+        TextView book_pages = (TextView) findViewById(R.id.book_pages);
+        TextView book_progress_percentage = (TextView) findViewById(R.id.book_progress_percentage);
 
         Book book = BookCatalog.list.search(id_book);
 
@@ -49,6 +53,9 @@ public class BookActivity extends FragmentActivity {
         book_collection.setText(book.getCollection());
         book_isbn.setText(book.getIsbn());
         book_description.setText(book.getDescription());
+        book_progress.setMax(book.getPages()); book_progress.setProgress(book.getProgress());
+        book_pages.setText("" + book.getPages());
+        book_progress_percentage.setText("" + book.getProgressPercentage());
     }
 
 }

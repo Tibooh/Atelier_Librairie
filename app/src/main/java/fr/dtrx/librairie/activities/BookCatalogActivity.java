@@ -82,12 +82,13 @@ public class BookCatalogActivity extends FragmentActivity implements AdapterView
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         BookFragment viewer = (BookFragment) getFragmentManager().findFragmentById(R.id.book_fragment);
+        int book_id = ((Book) listView.getItemAtPosition(position)).getBookId();
 
         if (viewer == null || !viewer.isInLayout()) {
             Intent intent = new Intent(getApplicationContext(), BookActivity.class);
-            intent.putExtra(ID_BOOK, ((Book) listView.getItemAtPosition(position)).getBookId());
+            intent.putExtra(ID_BOOK, book_id);
             startActivity(intent);
-        } else viewer.update(position);
+        } else viewer.update(book_id);
     }
 
     @Override

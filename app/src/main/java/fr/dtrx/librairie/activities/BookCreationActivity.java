@@ -68,6 +68,8 @@ public class BookCreationActivity extends Activity {
     EditText edit_text_book_collection;
     EditText edit_text_book_isbn;
     EditText edit_text_book_description;
+    EditText edit_text_book_pages;
+    EditText edit_text_book_progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +86,8 @@ public class BookCreationActivity extends Activity {
         edit_text_book_collection = (EditText) findViewById(R.id.edit_text_book_collection);
         edit_text_book_isbn = (EditText) findViewById(R.id.edit_text_book_isbn);
         edit_text_book_description = (EditText) findViewById(R.id.edit_text_book_description);
+        edit_text_book_pages = (EditText) findViewById(R.id.edit_text_book_pages);
+        edit_text_book_progress = (EditText) findViewById(R.id.edit_text_book_progress);
 
         if (FileFunctions.storageDir == null) FileFunctions.storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 
@@ -152,6 +156,8 @@ public class BookCreationActivity extends Activity {
         String book_collection = edit_text_book_collection.getText().toString();
         String book_isbn = edit_text_book_isbn.getText().toString();
         String book_description = edit_text_book_description.getText().toString();
+        int book_pages = edit_text_book_pages.getText().toString().equalsIgnoreCase("") ? 0 : Integer.parseInt(edit_text_book_pages.getText().toString());
+        int book_progress = edit_text_book_progress.getText().toString().equalsIgnoreCase("") ? 0 : Integer.parseInt(edit_text_book_progress.getText().toString());
 
         if (book_title.length() > 0) {
             if (book_author.length() > 0) {
@@ -170,6 +176,8 @@ public class BookCreationActivity extends Activity {
                 book.setCollection(book_collection);
                 book.setIsbn(book_isbn);
                 book.setDescription(book_description);
+                book.setPages(book_pages);
+                book.setProgress(book_progress);
 
                 try {
                     // This is how, a reference of DAO object can be done
@@ -324,6 +332,12 @@ public class BookCreationActivity extends Activity {
                 catch(JSONException jse){
                     jse.printStackTrace();
                 }
+
+                //Récupere le nombre de pages
+                try{ edit_text_book_pages.setText(volumeObject.getString("pageCount")); }
+                catch(JSONException jse){
+                    jse.printStackTrace();
+                }
             }
             catch (Exception e) {
                 //no result
@@ -356,6 +370,8 @@ public class BookCreationActivity extends Activity {
         edit_text_book_description.setText("");
         genreSpinner.setSelection(0);
         rating_bar_star.setRating(0);
+        edit_text_book_pages.setText("");
+        edit_text_book_progress.setText("");
     }
 
 }

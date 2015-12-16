@@ -6,11 +6,9 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -22,33 +20,15 @@ import android.widget.Toast;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.sql.SQLException;
 
-import cz.msebera.android.httpclient.HttpEntity;
-import cz.msebera.android.httpclient.HttpResponse;
-import cz.msebera.android.httpclient.StatusLine;
-import cz.msebera.android.httpclient.client.HttpClient;
-import cz.msebera.android.httpclient.client.methods.HttpGet;
-import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
 import fr.dtrx.librairie.R;
 import fr.dtrx.librairie.functions.FileFunctions;
 import fr.dtrx.librairie.functions.ImageFunctions;
 import fr.dtrx.librairie.model.Book;
 import fr.dtrx.librairie.model.DatabaseHelper;
-import fr.dtrx.librairie.scanner.IntentIntegrator;
-import fr.dtrx.librairie.scanner.IntentResult;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class BookUpdateActivity extends Activity {
 
@@ -68,6 +48,9 @@ public class BookUpdateActivity extends Activity {
     EditText edit_text_book_collection;
     EditText edit_text_book_isbn;
     EditText edit_text_book_description;
+    EditText edit_text_book_pages;
+    EditText edit_text_book_progress;
+    Book book;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,18 +67,20 @@ public class BookUpdateActivity extends Activity {
         edit_text_book_collection = (EditText) findViewById(R.id.edit_text_book_collection);
         edit_text_book_isbn = (EditText) findViewById(R.id.edit_text_book_isbn);
         edit_text_book_description = (EditText) findViewById(R.id.edit_text_book_description);
+        edit_text_book_pages = (EditText) findViewById(R.id.edit_text_book_pages);
+        edit_text_book_progress = (EditText) findViewById(R.id.edit_text_book_progress);
 
         if (FileFunctions.storageDir == null) FileFunctions.storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 
         // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, Book.getGenres());
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, Book.getGenres());
 
         // attaching data adapter to spinner
         genreSpinner.setAdapter(dataAdapter);
 
-        Book book = (Book) getIntent().getExtras().getSerializable("bookDetail");
+        book = (Book) getIntent().getExtras().getSerializable("bookDetail");
 
-        //tmp_image = new File(book.getImage());
+        tmp_image = new File(book.getImage());
         rating_bar_star.setRating(book.getRate());
         image_view_book_image.setImageBitmap(BitmapFactory.decodeFile(book.getImage()));
         genreSpinner.setSelection(book.getGenrePosition());
@@ -106,6 +91,8 @@ public class BookUpdateActivity extends Activity {
         edit_text_book_collection.setText(book.getCollection());
         edit_text_book_isbn.setText(book.getIsbn());
         edit_text_book_description.setText(book.getDescription());
+        edit_text_book_pages.setText("" + book.getPages());
+        edit_text_book_progress.setText("" + book.getProgress());
     }
 
 
@@ -166,14 +153,15 @@ public class BookUpdateActivity extends Activity {
         String book_collection = edit_text_book_collection.getText().toString();
         String book_isbn = edit_text_book_isbn.getText().toString();
         String book_description = edit_text_book_description.getText().toString();
+        int book_pages = edit_text_book_pages.getText().toString().equalsIgnoreCase("") ? 0 : Integer.parseInt(edit_text_book_pages.getText().toString());
+        int book_progress = edit_text_book_progress.getText().toString().equalsIgnoreCase("") ? 0 : Integer.parseInt(edit_text_book_progress.getText().toString());
 
         if (book_title.length() > 0) {
             if (book_author.length() > 0) {
 
                 // Once click on "Submit", it's first creates the TeacherDetails object
-                final Book book = new Book();
 
-                // Then, set all the values from user input
+                // Then, set all the values from user
                 book.setRate(book_rate);
                 book.setImage(book_image);
                 book.setGenre(book_genre);
@@ -184,6 +172,8 @@ public class BookUpdateActivity extends Activity {
                 book.setCollection(book_collection);
                 book.setIsbn(book_isbn);
                 book.setDescription(book_description);
+                book.setPages(book_pages);
+                book.setProgress(book_progress);
 
                 try {
                     // This is how, a reference of DAO object can be done
@@ -191,17 +181,22 @@ public class BookUpdateActivity extends Activity {
 
                     //This is the way to insert data into a database table
                     bookDao.update(book);
+
                     Toast.makeText(getApplicationContext(), "Livre modifié", Toast.LENGTH_SHORT).show();
+
                     finish();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+
+
             } else {
                 Toast.makeText(getApplicationContext(), "Le nom de l'auteur est nul ou n'est pas assez long" , Toast.LENGTH_SHORT).show();
             }
         } else {
             Toast.makeText(getApplicationContext(), "Le titre est nul ou n'est pas assez long", Toast.LENGTH_SHORT).show();
         }
+
     }
 
     // This is how, DatabaseHelper can be initialized for future use
